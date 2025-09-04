@@ -1,5 +1,78 @@
 package Batalha;
+// cuida da interação com o jogador
+import Personagens.Player;
+import Personagens.Inimigo;
+import java.util.List;
+import java.util.Scanner;
 
-public interface IBatalha {
+public class IBatalha {
+    private Scanner sc = new Scanner(System.in);
 
+    public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
+        System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
+        System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtack());
+
+        while (inimigo.getHp() > 0 && jogadores.stream().anyMatch(p -> p.getHp() > 0)) {
+            for (Player jogador : jogadores) {
+                if (jogador.getHp() <= 0) continue;
+
+                System.out.println("\n🔄 Turno de " + jogador.getNome());
+                System.out.println("Seu HP: " + jogador.getHp());
+                System.out.println("Inimigo HP: " + inimigo.getHp());
+
+                System.out.println("Escolha sua ação:");
+                System.out.println("(1) Atacar");
+                System.out.println("(2) Subir Status");
+                System.out.println("(3) Fugir");
+
+                int escolha = sc.nextInt();
+
+                switch (escolha) {
+                    case 1:
+                        jogador.usarHabilidade(jogador.getArma(), inimigo);
+                        break;
+                    case 2:
+                        jogador.subirStatus();
+                        break;
+                    case 3:
+                        System.out.println(jogador.getNome() + " fugiu da batalha!");
+                        jogador.setHp(0); // considera como fora da batalha
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+
+                if (inimigo.getHp() <= 0) break;
+            }
+
+            // Turno do inimigo
+            if (inimigo.getHp() > 0) {
+                Player alvo = escolherAlvo(jogadores);
+                if (alvo != null) {
+                    inimigo.atacar(alvo);
+                    System.out.println("\n👹 " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtack() + " de dano.");
+                }
+            }
+        }
+
+        if (inimigo.getHp() <= 0) {
+            System.out.println("\n🏆 Vitória! " + inimigo.getNome() + " foi derrotado!");
+            System.out.println("Todos os jogadores vivos recebem " + inimigo.getXp() + " XP!");
+            for (Player jogador : jogadores) {
+                if (jogador.getHp() > 0) {
+                    // Aqui você pode aplicar lógica de XP e evolução
+                    System.out.println(jogador.getNome() + " recebeu XP!");
+                }
+            }
+        } else {
+            System.out.println("\n💀 Todos os jogadores foram derrotados...");
+        }
+    }
+
+    private Player escolherAlvo(List<Player> jogadores) {
+        for (Player p : jogadores) {
+            if (p.getHp() > 0) return p;
+        }
+        return null;
+    }
 }

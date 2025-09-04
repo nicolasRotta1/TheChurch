@@ -1,5 +1,9 @@
 package Personagens;
 
+import Habilidades.Habilidade;
+
 public interface IPersonagem {
-    public void atacar(Personagem alvo);
+    void atacar(Personagem alvo);
+    void defender();
+    void usarHabilidade(Habilidade habilidade, Personagem alvo);
 }
