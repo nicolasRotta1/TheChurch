@@ -36,7 +36,7 @@ public class IBatalha {
                         break;
                     case 3:
                         System.out.println(jogador.getNome() + " fugiu da batalha!");
-                        jogador.setHp(0); // considera como fora da batalha
+                        jogador.setHp(0);
                         break;
                     default:
                         System.out.println("Opção inválida.");
@@ -45,7 +45,7 @@ public class IBatalha {
                 if (inimigo.getHp() <= 0) break;
             }
 
-            // Turno do inimigo
+
             if (inimigo.getHp() > 0) {
                 Player alvo = escolherAlvo(jogadores);
                 if (alvo != null) {

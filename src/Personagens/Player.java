@@ -11,7 +11,7 @@ public class Player extends Personagem {
     private Scanner sc = new Scanner(System.in);
 
     public Player(String nome) {
-        super(nome, 100, 5);
+        super(nome, 100, 5, true, true, "Exorcista Aprendiz");
         this.level = 1;
         this.pontosLevel = 50;
         this.pontosStatus = 3;
@@ -32,13 +32,15 @@ public class Player extends Personagem {
     @Override
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         System.out.println(getNome() + " usou a habilidade " + habilidade.getNome() + " contra " + alvo.getNome());
-        int dano = habilidade.getDanoBase() +getAtack();
+        int dano = habilidade.getDanoBase() + getAtack();
         alvo.receberDano(dano);
         System.out.println(alvo.getNome() + " recebeu " + dano + " de dano da habilidade " + habilidade.getNome());
     }
-    public Habilidade getArma(){
+
+    public Habilidade getArma() {
         return arma;
     }
+
     public void equiparArma(Habilidade novaArma) {
         this.arma = novaArma;
         System.out.println("🆕 " + getNome() + " equipou a arma do inimigo: " + novaArma.getNome());

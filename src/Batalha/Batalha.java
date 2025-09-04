@@ -1,57 +1,76 @@
 package Batalha;
-//gerencia a logica do combate
-import Personagens.Personagem;
 
+import Personagens.Player;
+import Personagens.Inimigo;
 import java.util.List;
+import java.util.Scanner;
 
 public class Batalha {
-    private List<Personagem> personagens;
-    private int turnoAtual = 0;
+    private Scanner sc = new Scanner(System.in);
 
-    public Batalha(List<Personagem> personagens) {
-        this.personagens = personagens;
-    }
-    public void iniciar(){
-        System.out.println(" Que começem os Jogos!");
+    public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
+        System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
+        System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtack());
 
-        while (!batalhaTerminou()){
-            Personagem atual = personagens.get(turnoAtual);
-            Personagem alvo = escolherAlvo(atual);
+        while (inimigo.getHp() > 0 && jogadores.stream().anyMatch(p -> p.getHp() > 0)) {
+            for (Player jogador : jogadores) {
+                if (jogador.getHp() <= 0) continue;
 
-            if (alvo!=null && atual.getHp() >0){
-                System.out.println(atual.getNome()+ "está atacando"+ alvo.getNome());
-                atual.atacar(alvo);
-                System.out.println(alvo.getNome()+ "agora tem"+ alvo.getHp()+"de HP.");
+                System.out.println("\n🔄 Turno de " + jogador.getNome());
+                System.out.println("Seu HP: " + jogador.getHp());
+                System.out.println("Inimigo HP: " + inimigo.getHp());
+
+                System.out.println("Escolha sua ação:");
+                System.out.println("(1) Atacar");
+                System.out.println("(2) Subir Status");
+                System.out.println("(3) Fugir");
+
+                int escolha = sc.nextInt();
+
+                switch (escolha) {
+                    case 1:
+                        jogador.usarHabilidade(jogador.getArma(), inimigo);
+                        break;
+                    case 2:
+                        jogador.subirStatus();
+                        break;
+                    case 3:
+                        System.out.println(jogador.getNome() + " fugiu da batalha!");
+                        jogador.setHp(0);
+                        break;
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+
+                if (inimigo.getHp() <= 0) break;
             }
-            proximoTurno();
-        }
-        System.out.println("A luta terminou!!");
-        mostrarResultado();
-    }
-    private Personagem escolherAlvo(Personagem atacante){
-        for(Personagem p: personagens){
-            if(!p.equals(atacante)&&p.getHp()>0){
-                return p;
+
+            if (inimigo.getHp() > 0) {
+                Player alvo = escolherAlvo(jogadores);
+                if (alvo != null) {
+                    inimigo.atacar(alvo);
+                    System.out.println("\n👹 " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtack() + " de dano.");
+                }
             }
         }
-        //oi
+
+        if (inimigo.getHp() <= 0) {
+            System.out.println("\n🏆 Vitória! " + inimigo.getNome() + " foi derrotado!");
+            System.out.println("Todos os jogadores vivos recebem " + inimigo.getXp() + " XP!");
+            for (Player jogador : jogadores) {
+                if (jogador.getHp() > 0) {
+                    System.out.println(jogador.getNome() + " recebeu XP!");
+                }
+            }
+        } else {
+            System.out.println("\n💀 Todos os jogadores foram derrotados...");
+        }
+    }
+
+    private Player escolherAlvo(List<Player> jogadores) {
+        for (Player p : jogadores) {
+            if (p.getHp() > 0) return p;
+        }
         return null;
-    }
-    private void proximoTurno(){
-        turnoAtual = (turnoAtual+1)% personagens.size();
-    }
-    private boolean batalhaTerminou(){
-        int vivos = 0;
-        for (Personagem p: personagens){
-            if(p.getHp()>0) vivos++;
-        }
-        return vivos<=1;
-    }
-    private void mostrarResultado(){
-        for(Personagem p:personagens){
-            if(p.getHp()>0){
-                System.out.println("Vitoria"+ p.getNome()+"venceu a luta!");
-            }
-        }
     }
 }

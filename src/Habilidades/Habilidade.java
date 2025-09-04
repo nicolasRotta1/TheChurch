@@ -3,13 +3,13 @@ package Habilidades;
 public class Habilidade {
     private String nome;
     private int danoBase;
-    private String tipo;
+    private String tipoDano;
     private String descricao;
 
-    public Habilidade(String nome, int danoBase, String tipo, String descricao) {
+    public Habilidade(String nome, int danoBase, String tipoDano, String descricao) {
         this.nome = nome;
         this.danoBase = danoBase;
-        this.tipo = tipo;
+        this.tipoDano = tipoDano;
         this.descricao = descricao;
     }
 
@@ -17,15 +17,16 @@ public class Habilidade {
         return nome;
     }
 
-    public int getDanoBase() {
-        return danoBase;
-    }
-
-    public String getTipo() {
-        return tipo;
+    public String getTipoDano() {
+        return tipoDano;
     }
 
     public String getDescricao() {
         return descricao;
+    }
+
+    // Metodo corrigido para retornar o dano base
+    public int getDanoBase() {
+        return danoBase;
     }
 }
