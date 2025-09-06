@@ -9,9 +9,10 @@ public class Batalha {
     private Scanner sc = new Scanner(System.in);
 
     public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
+        delay(500);
         System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
         System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtack());
-
+        delay(2000);
         while (inimigo.getHp() > 0 && jogadores.stream().anyMatch(p -> p.getHp() > 0)) {
             for (Player jogador : jogadores) {
                 if (jogador.getHp() <= 0) continue;
@@ -72,5 +73,13 @@ public class Batalha {
             if (p.getHp() > 0) return p;
         }
         return null;
+    }
+
+    public void delay(int tempo){
+        try {
+            Thread.sleep(tempo);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

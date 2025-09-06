@@ -53,8 +53,9 @@ public class Jogo {
         carregarJogadores();
         carregarInimigos();
 
+        delay(200);
         System.out.println("🎮 Campanha iniciada! Prepare-se para enfrentar lendas urbanas...");
-
+        delay(500);
         for (Inimigo inimigo : inimigos) {
             System.out.println("\n==============================");
             System.out.println("⚔️ Novo inimigo: " + inimigo.getNome() + " (" + inimigo.getTipo() + ")");
@@ -62,6 +63,7 @@ public class Jogo {
             if (inimigo.getHabilidade() != null) {
                 System.out.println("🧠 Habilidade especial: " + inimigo.getHabilidade().getNome());
                 System.out.println("📜 Descrição: " + inimigo.getHabilidade().getDescricao());
+                delay(5000);
             }
 
             System.out.println("==============================");
@@ -124,6 +126,27 @@ public class Jogo {
                     + " | XP: " + jogador.getPontosLevel()
                     + " | Arma: " + nomeArma
                     + " | Status: " + status);
+        }
+    }
+
+    public void LimparTela(){
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
+
+    }
+
+    public void delay(int tempo){
+        try {
+            Thread.sleep(tempo);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 }

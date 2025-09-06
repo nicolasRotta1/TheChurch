@@ -15,7 +15,6 @@ public class Player extends Personagem {
         this.level = 1;
         this.pontosLevel = 50;
         this.pontosStatus = 3;
-        // arma inicial
         this.arma = new Habilidade("Pistolinha", 10, "Físico", "Uma arma básica de fogo.");
     }
 

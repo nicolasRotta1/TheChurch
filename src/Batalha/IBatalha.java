@@ -1,5 +1,5 @@
 package Batalha;
-// cuida da interação com o jogador
+
 import Personagens.Player;
 import Personagens.Inimigo;
 import java.util.List;
