@@ -1,98 +1,63 @@
 package Personagens;
 
-import Habilidades.Habilidade;
-import java.util.Scanner;
+import Classe.ClassePlayer.ClassePlayer;
 
 public class Player extends Personagem {
-    private int level;
-    private int pontosLevel;
+    private int experiencia;
     private int pontosStatus;
-    private Habilidade arma;
-    private Scanner sc = new Scanner(System.in);
 
-    public Player(String nome) {
-        super(nome, 100, 5, true, true, "Exorcista Aprendiz");
-        this.level = 1;
-        this.pontosLevel = 50;
-        this.pontosStatus = 3;
-        this.arma = new Habilidade("Pistolinha", 10, "Físico", "Uma arma básica de fogo.");
+    public Player(String nome, ClassePlayer classePlayer, int hp, int ataque) {
+        super(nome, classePlayer,  hp, ataque);
+        this.experiencia = 0;
+        this.pontosStatus = 0;
     }
 
     @Override
     public void atacar(Personagem alvo) {
-        super.atacar(alvo);
+        System.out.println(nome + " ataca " + alvo.getNome() + " causando " + ataque + " de dano!");
+        alvo.receberDano(ataque);
     }
 
     @Override
-    public void defender() {
-        System.out.println(getNome() + " está se defendendo!");
+    public void subirLevel() {
+        level++;
+        pontosStatus += 5;
+        System.out.println(nome + " subiu para o nível " + level + "! (+5 pontos de status)");
     }
 
-    @Override
-    public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
-        System.out.println(getNome() + " usou a habilidade " + habilidade.getNome() + " contra " + alvo.getNome());
-        int dano = habilidade.getDanoBase() + getAtack();
-        alvo.receberDano(dano);
-        System.out.println(alvo.getNome() + " recebeu " + dano + " de dano da habilidade " + habilidade.getNome());
-    }
-
-    public Habilidade getArma() {
-        return arma;
-    }
-
-    public void equiparArma(Habilidade novaArma) {
-        this.arma = novaArma;
-        System.out.println("🆕 " + getNome() + " equipou a arma do inimigo: " + novaArma.getNome());
-    }
-
-    public void subirStatus() {
-        int pontos;
-        System.out.println("Deseja upar que atributo:");
-        System.out.println("(1) - Ataque | (2) - Vida | (3) - Defesa");
-        int opc = sc.nextInt();
-
-        switch (opc) {
-            case 1:
-                System.out.println("Quantos pontos deseja colocar em ataque:");
-                pontos = sc.nextInt();
-                setAtack(getAtack() + pontos * 2);
-                break;
-            case 2:
-                System.out.println("Quantos pontos deseja colocar em vida:");
-                pontos = sc.nextInt();
-                setHp(getHp() + pontos * 5);
-                break;
-            case 3:
-                System.out.println("Quantos pontos deseja colocar em defesa:");
-                pontos = sc.nextInt();
-                System.out.println("Defesa ainda não implementada.");
-                break;
-            default:
-                System.out.println("Opção inválida.");
+    public void ganharExperiencia(int xp) {
+        experiencia += xp;
+        System.out.println(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
+        if (experiencia >= level * 100) {
+            experiencia -= level * 100;
+            subirLevel();
         }
     }
 
-    public int getLevel() {
-        return level;
-    }
+    public void distribuirPonto(String atributo, int quantidade) {
+        if (pontosStatus <= 0) {
+            System.out.println("Você não tem pontos para distribuir.");
+            return;
+        }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+        if (pontosStatus < quantidade){
+            System.out.println("Você não tem pontos o suficiente para distribuir");
+            return;
+        }
 
-    public int getPontosLevel() {
-        return pontosLevel;
-    }
 
-    public void setPontosLevel(int pontosLevel) {
-        this.pontosLevel = pontosLevel;
-    }
-
-    public int getPontosStatus() {
-        return pontosStatus;
-    }
-
-    public void setPontosStatus(int pontosStatus) {
-        this.pontosStatus = pontosStatus;
+        switch (atributo.toLowerCase()) {
+            case "hp" -> {
+                hp += quantidade * 10;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou HP! HP atual: " + hp);
+            }
+            case "ataque" -> {
+                ataque += quantidade * 2;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou ATQ! ATQ atual: " + ataque);
+            }
+            default -> System.out.println("Atributo inválido.");
+        }
     }
 }

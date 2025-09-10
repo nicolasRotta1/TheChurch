@@ -1,113 +1,92 @@
 package Personagens;
 
-import Habilidades.Habilidade;
+import Classe.ClasseGeral;
 
-import java.util.Random;
+public abstract class Personagem implements IPersonagem {
+    protected static int contadorId = 0;
+    protected int id;
+    protected String nome;
+    protected ClasseGeral classeGeral;
+    protected int hp;
+    protected int ataque;
+    protected int level;
+    protected boolean isVivo;
 
-public abstract class Personagem {
-    private int id;
-    private String nome;
-    private int hp;
-    private int atack;
-    private static int ContadorId;
-    private boolean doBem;
-    private boolean jogador;
-    private String hierarquia;
-
-    public Personagem(String nome, int hp, int atack, boolean doBem, boolean jogador, String hierarquia) {
-        this.id = ++ContadorId;
+    public Personagem(String nome, ClasseGeral classeGeral, int hp, int ataque) {
+        contadorId++;
+        this.id = contadorId;
         this.nome = nome;
+        this.classeGeral = classeGeral;
         this.hp = hp;
-        this.atack = atack;
-        this.doBem = doBem;
-        this.jogador = jogador;
-        this.hierarquia = hierarquia;
+        this.ataque = ataque;
+        this.level = 1;
+        this.isVivo = true;
     }
 
-    public void atacar(Personagem alvo) {
-        int dano = getAtack() + new Random().nextInt(5);
-        alvo.receberDano(dano);
-    }
-
-    public void receberDano(int dano) {
-        this.hp -= dano;
-    }
-
-    public void subirHierarquia() {
-        if (this.hierarquia.equalsIgnoreCase("Exorcista Aprendiz")) {
-            this.hierarquia = "Exorcista";
-        } else if (this.hierarquia.equalsIgnoreCase("Exorcista")) {
-            this.hierarquia = "Exorcista Mestre";
-        } else if (this.hierarquia.equalsIgnoreCase("Exorcista Mestre")) {
-            this.hierarquia = "Sacerdote";
-        } else if (this.hierarquia.equalsIgnoreCase("Sacerdote")) {
-            this.hierarquia = "Padre";
-        } else if (this.hierarquia.equalsIgnoreCase("Padre")) {
-            this.hierarquia = "Jesus Cristo"; // nível máximo
-        }
-    }
-
-    public String getHierarquia() {
-        return hierarquia;
-    }
-
-    public void setHierarquia(String hierarquia) {
-        this.hierarquia = hierarquia;
-    }
-
-    public boolean isDoBem() {
-        return doBem;
-    }
-
-    public void setDoBem(boolean doBem) {
-        this.doBem = doBem;
-    }
-
-    public boolean isJogador() {
-        return jogador;
-    }
-
-    public void setJogador(boolean jogador) {
-        this.jogador = jogador;
-    }
-
+    // ---------- Métodos comuns ----------
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getNome() {
         return nome;
     }
 
+    @Override
     public void setNome(String nome) {
         this.nome = nome;
     }
 
+    @Override
     public int getHp() {
         return hp;
     }
 
+    @Override
     public void setHp(int hp) {
         this.hp = hp;
     }
 
-    public int getAtack() {
-        return atack;
+    @Override
+    public int getAtaque() {
+        return ataque;
     }
 
-    public void setAtack(int atack) {
-        this.atack = atack;
+    @Override
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
     }
 
-    public static int getContadorId() {
-        return ContadorId;
+    @Override
+    public void receberDano(double dano) {
+        this.hp -= dano;
+        if (this.hp < 0) this.hp = 0;
     }
 
-    public static void setContadorId(int contadorId) {
-        ContadorId = contadorId;
+    @Override
+    public boolean estaVivo() {
+        return this.hp > 0;
     }
 
-    public abstract void defender();
+    @Override
+    public int getLevel() {
+        return level;
+    }
 
-    public abstract void usarHabilidade(Habilidade habilidade, Personagem alvo);
+    // ---------- Métodos a serem sobrescritos ----------
+    @Override
+    public abstract void atacar(Personagem alvo);
+
+    @Override
+    public abstract void subirLevel();
+
+    @Override
+    public void mostrarStatus() {
+        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
+                " | HP: " + hp +
+                " | ATQ: " + ataque +
+                " | LVL: " + level);
+    }
 }

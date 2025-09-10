@@ -3,7 +3,7 @@ package Jogo;
 import Batalha.Batalha;
 import Habilidades.Habilidade;
 import Personagens.Player;
-import Personagens.Inimigo;
+import Personagens.Inimigos.Inimigo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,37 +15,10 @@ public class Jogo {
     private Scanner sc = new Scanner(System.in);
 
     public void carregarJogadores() {
-        jogadores.add(new Player("Ruthe"));
-        jogadores.add(new Player("Cecilia"));
-        jogadores.add(new Player("Lucas"));
-        jogadores.add(new Player("João"));
-        jogadores.add(new Player("Ana"));
-    }
+
 
     private void carregarInimigos() {
-        inimigos.add(new Inimigo("Vampiro Nosferato", 200, 25, 150, "Normal",
-                new Habilidade("Mordida Sombria", 30, "Físico", "Nosferato morde e suga sangue, recuperando parte do HP."),
-                "Alho / Espelho", "Torna-se mais rápido e mortal"));
 
-        inimigos.add(new Inimigo("Vampiro Drácula", 350, 40, 250, "Boss",
-                new Habilidade("Servos das Sombras", 35, "Magia", "Invoca servos das trevas e aumenta sua velocidade de ataque."),
-                "Alho / Espelho (ou estaca)", "Ganha servos das sombras e habilidades estratégicas"));
-
-        inimigos.add(new Inimigo("Annabelle", 300, 35, 300, "Normal",
-                new Habilidade("Possessão de Boneco", 40, "Magia", "Possui um boneco e força o jogador a atacar um aliado."),
-                "Sal grosso / Água benta", "Passa a possuir bonecos invocados"));
-
-        inimigos.add(new Inimigo("Chucky", 220, 28, 220, "Normal",
-                new Habilidade("Lâminas Envenenadas", 30, "Físico", "Ataca duas vezes com facas envenenadas, causando dano crítico."),
-                "Sal grosso / Água benta", "Adquire lâminas envenenadas e ataques críticos"));
-
-        inimigos.add(new Inimigo("Súcubo", 280, 32, 280, "Normal",
-                new Habilidade("Roubo de Vida", 35, "Magia", "Rouba HP do jogador e pode controlá-lo por 1 turno."),
-                "Exorcismo", "Rouba vida e pode controlar heróis por 1 turno"));
-
-        inimigos.add(new Inimigo("Anticristo", 1200, 70, 1500, "Final Boss",
-                new Habilidade("Eclipse Sombrio", 70, "Magia", "Controla o Coração do Sol e lança magia destrutiva em área."),
-                "Todos os remanescentes", "Controla o Eclipse e o Coração do Sol"));
     }
 
 
@@ -57,18 +30,12 @@ public class Jogo {
         System.out.println("🎮 Campanha iniciada! Prepare-se para enfrentar lendas urbanas...");
         delay(500);
         for (Inimigo inimigo : inimigos) {
-            System.out.println("\n==============================");
-            System.out.println("⚔️ Novo inimigo: " + inimigo.getNome() + " (" + inimigo.getTipo() + ")");
 
-            if (inimigo.getHabilidade() != null) {
-                System.out.println("🧠 Habilidade especial: " + inimigo.getHabilidade().getNome());
-                System.out.println("📜 Descrição: " + inimigo.getHabilidade().getDescricao());
-                delay(5000);
             }
 
             System.out.println("==============================");
             Batalha batalha = new Batalha();
-            batalha.iniciarBatalha(jogadores, inimigo);
+            batalha.iniciarBatalha(jogadores, );
 
             System.out.println("\n✨ Recompensas da batalha:");
 

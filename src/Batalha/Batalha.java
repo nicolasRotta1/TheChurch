@@ -1,13 +1,14 @@
 package Batalha;
 
 import Personagens.Player;
-import Personagens.Inimigo;
+import Personagens.Inimigos.Inimigo;
 import java.util.List;
 import java.util.Scanner;
 
-public class Batalha {
+public class Batalha implements IBatalha{
     private Scanner sc = new Scanner(System.in);
 
+    @Override
     public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
         delay(500);
         System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
@@ -67,8 +68,8 @@ public class Batalha {
             System.out.println("\n💀 Todos os jogadores foram derrotados...");
         }
     }
-
-    private Player escolherAlvo(List<Player> jogadores) {
+    @Override
+    public Player escolherAlvo(List<Player> jogadores) {
         for (Player p : jogadores) {
             if (p.getHp() > 0) return p;
         }
