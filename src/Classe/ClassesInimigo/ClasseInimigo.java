@@ -12,6 +12,11 @@ public abstract class ClasseInimigo extends ClasseGeral {
         this.tipoCriatura = tipoCriatura;
     }
 
+    public ClasseInimigo(String nome, String descricao,  List<String> fraquezas, String tipoCriatura) {
+        super(nome, descricao, fraquezas);
+        this.tipoCriatura = tipoCriatura;
+    }
+
     public String getTipoCriatura() {
         return tipoCriatura;
     }

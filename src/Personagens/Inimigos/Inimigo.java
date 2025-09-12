@@ -24,4 +24,6 @@ public abstract class Inimigo extends Personagem {
         hp += 15;
         System.out.println(nome + " ficou mais forte! (LVL " + level + ")");
     }
+
+
 }

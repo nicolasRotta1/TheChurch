@@ -21,6 +21,15 @@ public abstract class ClasseGeral {
         this.fraquezas = fraquezas;
     }
 
+    public ClasseGeral(String nome, String descricao, List<String> fraquezas) {
+        ContadorId++;
+        this.id = ContadorId;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.fraquezas = fraquezas;
+    }
+
+
     public int getId() {
         return id;
     }
