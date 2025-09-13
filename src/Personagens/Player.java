@@ -1,13 +1,13 @@
 package Personagens;
 
-import Classe.ClassePlayer.ClassePlayer;
+import Categoria.CategoriaPlayer.CategoriaPlayer;
 
 public class Player extends Personagem {
     private int experiencia;
     private int pontosStatus;
 
-    public Player(String nome, ClassePlayer classePlayer, int hp, int ataque) {
-        super(nome, classePlayer,  hp, ataque);
+    public Player(String nome, CategoriaPlayer categoria) {
+        super(nome, categoria);
         this.experiencia = 0;
         this.pontosStatus = 0;
     }
@@ -34,6 +34,15 @@ public class Player extends Personagem {
         }
     }
 
+    @Override
+    public void mostrarStatus() {
+        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
+                " | HP: " + hp +
+                " | ATQ: " + ataque +
+                " | LVL: " + level+
+                " | Categoria: " + categoria.getNome());
+    }
+
     public void distribuirPonto(String atributo, int quantidade) {
         if (pontosStatus <= 0) {
             System.out.println("Você não tem pontos para distribuir.");
@@ -47,7 +56,7 @@ public class Player extends Personagem {
 
 
         switch (atributo.toLowerCase()) {
-            case "hp" -> {
+            case "vida" -> {
                 hp += quantidade * 10;
                 pontosStatus -= quantidade;
                 System.out.println(nome + " aumentou HP! HP atual: " + hp);
@@ -59,5 +68,7 @@ public class Player extends Personagem {
             }
             default -> System.out.println("Atributo inválido.");
         }
+
+
     }
 }

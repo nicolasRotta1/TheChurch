@@ -1,13 +1,16 @@
 package Personagens.Inimigos;
 
 
-import Classe.ClassesInimigo.ClasseInimigo;
+import Categoria.CategoriaInimigo.CategoriaInimigo;
 import Personagens.Personagem;
 
 public abstract class Inimigo extends Personagem {
+    //Pode ter um metodo que calcula isso com base no level do inimigo na classe dele e se ele e um boss
+    protected int xp;
 
-    public Inimigo(String nome, ClasseInimigo classeInimigo,  int hp, int ataque) {
-        super(nome, classeInimigo, hp, ataque);
+    public Inimigo(String nome, CategoriaInimigo categoria, int xp) {
+        super(nome, categoria);
+        this.xp = xp;
     }
 
     @Override
@@ -18,10 +21,19 @@ public abstract class Inimigo extends Personagem {
 
     @Override
     public void subirLevel() {
-        // Inimigos podem evoluir de forma fixa (exemplo: bosses)
+        // Inimigos podem evoluir de forma fixa
         level++;
-        ataque += 3;
-        hp += 15;
-        System.out.println(nome + " ficou mais forte! (LVL " + level + ")");
+        ataque += 4;
+        hp += 30;
+        System.out.println(nome+" se fortalece!");
+    }
+
+    @Override
+    public void mostrarStatus() {
+        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
+                " | HP: " + hp +
+                " | ATQ: " + ataque +
+                " | LVL: " + level+
+                " | Categoria: " + categoria.getNome());
     }
 }

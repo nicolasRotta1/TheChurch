@@ -1,18 +1,18 @@
-package Classe;
+package Categoria;
 
 import Habilidades.Habilidade;
 import java.util.List;
 
-public abstract class ClasseGeral {
-    private int id;
-    private String nome;
-    private String descricao;
-    private List<String> vantagens;
-    private List<String> fraquezas;
+public abstract class CategoriaGeral {
+    protected int id;
+    protected String nome;
+    protected String descricao;
+    protected List<String> vantagens;
+    protected List<String> fraquezas;
     protected List<Habilidade> habilidades;
-    private static int ContadorId;
+    protected static int ContadorId;
 
-    public ClasseGeral(String nome, String descricao, List<String> vantagens, List<String> fraquezas) {
+    public CategoriaGeral(String nome, String descricao, List<String> vantagens, List<String> fraquezas) {
         ContadorId++;
         this.id = ContadorId;
         this.nome = nome;
@@ -25,17 +25,32 @@ public abstract class ClasseGeral {
         return id;
     }
 
+    public String getNome() {
+        return nome;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 
+    public List<String> getVantagens() {
+        return vantagens;
+    }
+
     public void setVantagens(List<String> vantagens) {
         this.vantagens = vantagens;
+    }
+
+    public List<String> getFraquezas() {
+        return fraquezas;
     }
 
     public void setFraquezas(List<String> fraquezas) {

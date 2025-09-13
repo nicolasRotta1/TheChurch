@@ -1,24 +1,24 @@
 package Personagens;
 
-import Classe.ClasseGeral;
+import Categoria.CategoriaGeral;
 
 public abstract class Personagem implements IPersonagem {
     protected static int contadorId = 0;
     protected int id;
     protected String nome;
-    protected ClasseGeral classeGeral;
+    protected CategoriaGeral categoria;
     protected int hp;
     protected int ataque;
     protected int level;
     protected boolean isVivo;
 
-    public Personagem(String nome, ClasseGeral classeGeral, int hp, int ataque) {
+    public Personagem(String nome, CategoriaGeral categoria) {
         contadorId++;
         this.id = contadorId;
         this.nome = nome;
-        this.classeGeral = classeGeral;
-        this.hp = hp;
-        this.ataque = ataque;
+        this.categoria = categoria;
+        this.hp = 100;
+        this.ataque = 20;
         this.level = 1;
         this.isVivo = true;
     }
@@ -59,6 +59,18 @@ public abstract class Personagem implements IPersonagem {
         this.ataque = ataque;
     }
 
+    public CategoriaGeral getCategoriaGeral() {
+        return categoria;
+    }
+
+    public void setCategoriaGeral(CategoriaGeral categoria) {
+        this.categoria = categoria;
+    }
+
+    public void setVivo(boolean vivo) {
+        isVivo = vivo;
+    }
+
     @Override
     public void receberDano(double dano) {
         this.hp -= dano;
@@ -67,8 +79,8 @@ public abstract class Personagem implements IPersonagem {
 
     @Override
     public boolean estaVivo() {
-        return this.hp > 0;
-    }
+        setVivo(false);
+        return this.hp >= 0;}
 
     @Override
     public int getLevel() {
@@ -83,10 +95,8 @@ public abstract class Personagem implements IPersonagem {
     public abstract void subirLevel();
 
     @Override
-    public void mostrarStatus() {
-        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
-                " | HP: " + hp +
-                " | ATQ: " + ataque +
-                " | LVL: " + level);
+    public abstract void mostrarStatus();
+
+
     }
-}
+

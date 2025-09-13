@@ -20,7 +20,7 @@ public class Habilidade implements IHabilidade{
     }
 
     @Override
-    public void executar(Personagem atacante, Personagem alvo) {
+    public void executar(Personagem atacante,Personagem alvo) {
         alvo.receberDano(CalcularDanoFinal(atacante));
     }
 
