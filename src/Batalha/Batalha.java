@@ -12,7 +12,7 @@ public class Batalha implements IBatalha{
     public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
         delay(500);
         System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
-        System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtack());
+        System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtaque());
         delay(2000);
         while (inimigo.getHp() > 0 && jogadores.stream().anyMatch(p -> p.getHp() > 0)) {
             for (Player jogador : jogadores) {
@@ -51,7 +51,7 @@ public class Batalha implements IBatalha{
                 Player alvo = escolherAlvo(jogadores);
                 if (alvo != null) {
                     inimigo.atacar(alvo);
-                    System.out.println("\n👹 " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtack() + " de dano.");
+                    System.out.println("\n👹 " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtaque() + " de dano.");
                 }
             }
         }
