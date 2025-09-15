@@ -11,18 +11,18 @@ public class Batalha implements IBatalha{
     @Override
     public void iniciarBatalha(List<Player> jogadores, Inimigo inimigo) {
         delay(500);
-        System.out.println("⚔️ Luta contra " + inimigo.getNome() + " começou!");
+        System.out.println("*** Luta contra " + inimigo.getNome() + " comecou!");
         System.out.println("Tipo: " + inimigo.getTipo() + " | HP: " + inimigo.getHp() + " | Dano: " + inimigo.getAtaque());
         delay(2000);
         while (inimigo.getHp() > 0 && jogadores.stream().anyMatch(p -> p.getHp() > 0)) {
             for (Player jogador : jogadores) {
                 if (jogador.getHp() <= 0) continue;
 
-                System.out.println("\n🔄 Turno de " + jogador.getNome());
+                System.out.println("\n>>> Turno de " + jogador.getNome());
                 System.out.println("Seu HP: " + jogador.getHp());
                 System.out.println("Inimigo HP: " + inimigo.getHp());
 
-                System.out.println("Escolha sua ação:");
+                System.out.println("Escolha sua acao:");
                 System.out.println("(1) Atacar");
                 System.out.println("(2) Subir Status");
                 System.out.println("(3) Fugir");
@@ -41,7 +41,7 @@ public class Batalha implements IBatalha{
                         jogador.setHp(0);
                         break;
                     default:
-                        System.out.println("Opção inválida.");
+                        System.out.println("Opcao invalida.");
                 }
 
                 if (inimigo.getHp() <= 0) break;
@@ -51,13 +51,13 @@ public class Batalha implements IBatalha{
                 Player alvo = escolherAlvo(jogadores);
                 if (alvo != null) {
                     inimigo.atacar(alvo);
-                    System.out.println("\n👹 " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtaque() + " de dano.");
+                    System.out.println("\n*** " + inimigo.getNome() + " atacou " + alvo.getNome() + " causando " + inimigo.getAtaque() + " de dano.");
                 }
             }
         }
 
         if (inimigo.getHp() <= 0) {
-            System.out.println("\n🏆 Vitória! " + inimigo.getNome() + " foi derrotado!");
+            System.out.println("\n*** VITORIA! " + inimigo.getNome() + " foi derrotado!");
             System.out.println("Todos os jogadores vivos recebem " + inimigo.getXp() + " XP!");
             for (Player jogador : jogadores) {
                 if (jogador.getHp() > 0) {
@@ -65,7 +65,7 @@ public class Batalha implements IBatalha{
                 }
             }
         } else {
-            System.out.println("\n💀 Todos os jogadores foram derrotados...");
+            System.out.println("\n*** Todos os jogadores foram derrotados...");
         }
     }
     @Override
