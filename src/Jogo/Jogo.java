@@ -1,7 +1,6 @@
 package Jogo;
 
 import Batalha.Batalha;
-import Habilidades.Habilidade;
 import Personagens.Player;
 import Personagens.Inimigos.Inimigo;
 
@@ -15,10 +14,28 @@ public class Jogo {
     private Scanner sc = new Scanner(System.in);
 
     public void carregarJogadores() {
-
+        System.out.println("*** Criando jogadores...");
+        
+        // Criando jogadores com diferentes categorias
+        jogadores.add(new Player("Joao - O Padre", new Categoria.CategoriaPlayer.Padre()));
+        jogadores.add(new Player("Maria - A Cacadora", new Categoria.CategoriaPlayer.Caçador()));
+        jogadores.add(new Player("Pedro - O Guerreiro", new Categoria.CategoriaPlayer.Guerreiro()));
+        
+        System.out.println(">>> " + jogadores.size() + " jogadores criados:");
+        for (Player jogador : jogadores) {
+            jogador.mostrarStatus();
+        }
+    }
 
     private void carregarInimigos() {
-
+        System.out.println("*** Carregando inimigos...");
+        
+        // Adicionando inimigos baseados em lendas urbanas brasileiras
+        inimigos.add(new Personagens.Inimigos.Saci());
+        inimigos.add(new Personagens.Inimigos.Curupira());
+        inimigos.add(new Personagens.Inimigos.MulaSemCabeca());
+        
+        System.out.println(">>> " + inimigos.size() + " inimigos carregados!");
     }
 
 
@@ -27,17 +44,19 @@ public class Jogo {
         carregarInimigos();
 
         delay(200);
-        System.out.println("🎮 Campanha iniciada! Prepare-se para enfrentar lendas urbanas...");
+        System.out.println("*** Campanha iniciada! Prepare-se para enfrentar lendas urbanas...");
         delay(500);
+        
         for (Inimigo inimigo : inimigos) {
-
-            }
+            System.out.println("\n>>> Um novo inimigo aparece!");
+            inimigo.mostrarStatus();
+            delay(1000);
 
             System.out.println("==============================");
             Batalha batalha = new Batalha();
-            batalha.iniciarBatalha(jogadores, );
+            batalha.iniciarBatalha(jogadores, inimigo);
 
-            System.out.println("\n✨ Recompensas da batalha:");
+            System.out.println("\n*** Recompensas da batalha:");
 
             if (inimigo.getHp() <= 0 && inimigo.getHabilidade() != null) {
                 for (Player jogador : jogadores) {
@@ -50,7 +69,7 @@ public class Jogo {
 
             distribuirXp(inimigo.getXp());
 
-            System.out.println("\n❤️ Recuperação dos jogadores:");
+            System.out.println("\n+++ Recuperacao dos jogadores:");
             for (Player jogador : jogadores) {
                 if (jogador.getHp() > 0) {
                     int hpMax = 100;
@@ -61,16 +80,16 @@ public class Jogo {
 
             boolean todosDerrotados = jogadores.stream().allMatch(j -> j.getHp() <= 0);
             if (todosDerrotados) {
-                System.out.println("\n💀 Todos os jogadores foram derrotados! Campanha encerrada.");
+                System.out.println("\n*** Todos os jogadores foram derrotados! Campanha encerrada.");
                 mostrarResumoFinal();
                 return;
             }
 
-            System.out.println("\n➡️ Pressione ENTER para continuar...");
+            System.out.println("\n>>> Pressione ENTER para continuar...");
             sc.nextLine();
         }
 
-        System.out.println("\n🏁 Campanha finalizada! Todos os inimigos foram derrotados!");
+        System.out.println("\n*** Campanha finalizada! Todos os inimigos foram derrotados!");
         mostrarResumoFinal();
     }
 
@@ -83,10 +102,10 @@ public class Jogo {
         }
     }
     private void mostrarResumoFinal() {
-        System.out.println("\n📜 Resumo dos jogadores:");
+        System.out.println("\n*** Resumo dos jogadores:");
         for (Player jogador : jogadores) {
             String nomeArma = (jogador.getArma() != null) ? jogador.getArma().getNome() : "Nenhuma";
-            String status = (jogador.getHp() > 0) ? "🟢 Vivo" : "🔴 Derrotado";
+            String status = (jogador.getHp() > 0) ? "[VIVO]" : "[DERROTADO]";
 
             System.out.println("- " + jogador.getNome()
                     + " | HP: " + jogador.getHp()
