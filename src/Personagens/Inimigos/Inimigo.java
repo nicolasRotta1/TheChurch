@@ -2,15 +2,19 @@ package Personagens.Inimigos;
 
 
 import Categoria.CategoriaInimigo.CategoriaInimigo;
+import Habilidades.Habilidade;
 import Personagens.Personagem;
 
 public abstract class Inimigo extends Personagem {
     //Pode ter um metodo que calcula isso com base no level do inimigo na classe dele e se ele e um boss
     protected int xp;
+    protected Habilidade habilidade;
+    protected String tipo;
 
     public Inimigo(String nome, CategoriaInimigo categoria, int xp) {
         super(nome, categoria);
         this.xp = xp;
+        this.tipo = categoria.getTipoCriatura();
     }
 
     @Override
@@ -35,5 +39,26 @@ public abstract class Inimigo extends Personagem {
                 " | ATQ: " + ataque +
                 " | LVL: " + level+
                 " | Categoria: " + categoria.getNome());
+    }
+
+    // Getters e Setters
+    public int getXp() {
+        return xp;
+    }
+
+    public Habilidade getHabilidade() {
+        return habilidade;
+    }
+
+    public void setHabilidade(Habilidade habilidade) {
+        this.habilidade = habilidade;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public int getAtack() {
+        return ataque;
     }
 }
