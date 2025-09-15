@@ -5,7 +5,7 @@ public class Menu {
 
     public int exibirMenu() {
         System.out.println("=================================");
-        System.out.println("     🕍 Ascensão das Lendas");
+        System.out.println("     ASCENSAO DAS LENDAS");
         System.out.println("=================================");
         System.out.println("Pressione ENTER para Start...");
         sc.nextLine(); // espera ENTER
@@ -33,7 +33,7 @@ public class Menu {
             }
 
             if (opcao < 1 || opcao > 2) {
-                System.out.println("⚠️ Opção inválida, tente novamente!");
+                System.out.println("*** Opcao invalida, tente novamente! ***");
             }
         }
         return opcao;

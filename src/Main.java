@@ -9,7 +9,7 @@ public class Main {
         if (escolha == 1) {
             jogo.iniciarCampanha();
         } else if (escolha == 2) {
-            System.out.println("📂 Carregar Campanha (ainda não implementado).");
+            System.out.println(">> Carregar Campanha (ainda nao implementado).");
             jogo.iniciarCampanha();
         }
     }
