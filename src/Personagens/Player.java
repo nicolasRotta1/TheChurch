@@ -33,6 +33,29 @@ public class Player extends Personagem {
         System.out.println(nome + " subiu para o nível " + level + "! (+5 pontos de status)");
     }
 
+    @Override
+    public void atacar(Personagem alvo) {
+        double chanceEsquiva = Math.random();
+        if (chanceEsquiva < alvo.getEsquiva()) {
+            System.out.println(alvo.getNome() + " esquivou do ataque!");
+            return;
+        }
+
+        // Dano reduzido pela defesa
+        int dano = (int)(this.ataque * (1 - 0.05 * alvo.getDefesa()));
+        if (dano < 0) dano = 0;
+
+        // Crítico
+        if (Math.random() < this.critico) {
+            dano *= 2;
+            System.out.println("CRÍTICO!");
+        }
+
+        alvo.setHp(alvo.getHp() - dano);
+        System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano! (HP restante: " + alvo.getHp() + ")");
+    }
+
+
     public void ganharExperiencia(int xp) {
         experiencia += xp;
         System.out.println(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
@@ -45,12 +68,7 @@ public class Player extends Personagem {
     // =======================
     // Ataque e habilidades
     // =======================
-    @Override
-    public void atacar(Personagem alvo) {
-        int dano = this.ataque;
-        alvo.receberDano(dano);
-        System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano!");
-    }
+
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         if (habilidade != null) {

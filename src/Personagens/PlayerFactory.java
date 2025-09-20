@@ -23,7 +23,7 @@ public class PlayerFactory {
     // Criação de player padrão
     // =======================
     public static Player criarNovoPlayer(String nome, CategoriaPlayer categoria) {
-        return new Player(
+        Player player = new Player(
                 nome,
                 categoria,
                 HP_INICIAL,
@@ -40,6 +40,11 @@ public class PlayerFactory {
                 XP_INICIAL,
                 PONTOS_FE_INICIAL
         );
+
+        // Aplica os efeitos da categoria automaticamente
+        categoria.aplicarEfeitos(player);
+
+        return player;
     }
 
     // =======================
@@ -49,7 +54,8 @@ public class PlayerFactory {
                                                 int hp, int ataque, int defesa, int magia, int velocidade,
                                                 double esquiva, double critico, int resistenciaMagica, int energia,
                                                 int level, int pontosStatus, int experiencia, int pontosFe) {
-        return new Player(
+
+        Player player = new Player(
                 nome,
                 categoria,
                 hp,
@@ -66,5 +72,10 @@ public class PlayerFactory {
                 experiencia,
                 pontosFe
         );
+
+        // Aplica os efeitos da categoria automaticamente
+        categoria.aplicarEfeitos(player);
+
+        return player;
     }
 }

@@ -24,23 +24,26 @@ public abstract class Inimigo extends Personagem {
     // =======================
     @Override
     public void atacar(Personagem alvo) {
-        int dano = ataque;
-
-        // chance de crítico
-        if (atacarCritico()) {
-            dano *= 1.5;
-            System.out.println("Ataque crítico!");
-        }
-
-        // chance de esquiva do alvo
-        if (alvo.tentarEsquiva()) {
+        double chanceEsquiva = Math.random();
+        if (chanceEsquiva < alvo.getEsquiva()) {
             System.out.println(alvo.getNome() + " esquivou do ataque!");
             return;
         }
 
-        alvo.receberDano(dano);
-        System.out.println("O inimigo " + nome + " ataca " + alvo.getNome() + " causando " + dano + " de dano!");
+        // Dano reduzido pela defesa
+        int dano = (int)(this.ataque * (1 - 0.05 * alvo.getDefesa()));
+        if (dano < 0) dano = 0;
+
+        // Crítico
+        if (Math.random() < this.critico) {
+            dano *= 2;
+            System.out.println("CRÍTICO!");
+        }
+
+        alvo.setHp(alvo.getHp() - dano);
+        System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano! (HP restante: " + alvo.getHp() + ")");
     }
+
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         if (habilidade != null) {
