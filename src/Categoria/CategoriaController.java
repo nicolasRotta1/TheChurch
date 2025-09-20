@@ -6,9 +6,10 @@ public class CategoriaController implements ICategoria {
 
     private CategoriaGeral categoria;
 
-    public CategoriaController(CategoriaGeral classe) {
+    public CategoriaController(CategoriaGeral categoria) {
         this.categoria = categoria;
     }
+
 
     public CategoriaGeral getcategoria() {
         return categoria;

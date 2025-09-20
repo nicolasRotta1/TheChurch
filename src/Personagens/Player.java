@@ -1,30 +1,32 @@
 package Personagens;
 
+import Categoria.CategoriaGeral;
 import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Habilidades.Habilidade;
 
+import java.util.Scanner;
+
 public class Player extends Personagem {
+
     private int experiencia;
     private int pontosStatus;
-    private int pontosLevel;
-    private Habilidade arma;
+    private int pontosFe;
 
-    public Player(String nome, CategoriaPlayer categoria) {
-        super(nome, categoria);
-        this.experiencia = 0;
-        this.pontosStatus = 0;
-        this.pontosLevel = 0;
-        // Arma padrão básica
-        this.arma = new Habilidade("Ataque Básico", "Físico", 1.0, "Um ataque básico");
+    public Player(String nome, CategoriaPlayer categoria,
+                  int hp, int ataque, int defesa, int magia, int velocidade,
+                  double esquiva, double critico, int resistenciaMagica, int energia,
+                  int level, int pontosStatus, int experiencia, int pontosFe) {
+
+        super(nome, categoria, hp, ataque, defesa, magia, velocidade, esquiva, critico, resistenciaMagica, energia);
+        this.level = level;
+        this.pontosStatus = pontosStatus;
+        this.experiencia = experiencia;
+        this.pontosFe = pontosFe;
     }
 
-    @Override
-    public void atacar(Personagem alvo) {
-        System.out.println(nome + " ataca " + alvo.getNome() + " causando " + ataque + " de dano!");
-        alvo.receberDano(ataque);
-    }
-
-    @Override
+    // =======================
+    // Level e XP
+    // =======================
     public void subirLevel() {
         level++;
         pontosStatus += 5;
@@ -33,7 +35,6 @@ public class Player extends Personagem {
 
     public void ganharExperiencia(int xp) {
         experiencia += xp;
-        pontosLevel += xp;
         System.out.println(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
         if (experiencia >= level * 100) {
             experiencia -= level * 100;
@@ -41,21 +42,33 @@ public class Player extends Personagem {
         }
     }
 
+    // =======================
+    // Ataque e habilidades
+    // =======================
     @Override
-    public void mostrarStatus() {
-        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
-                " | HP: " + hp +
-                " | ATQ: " + ataque +
-                " | LVL: " + level+
-                " | Categoria: " + categoria.getNome());
+    public void atacar(Personagem alvo) {
+        int dano = this.ataque;
+        alvo.receberDano(dano);
+        System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano!");
     }
 
+    public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
+        if (habilidade != null) {
+            System.out.println(nome + " usa " + habilidade.getNome() + " contra " + alvo.getNome() + "!");
+            habilidade.executar(this, alvo);
+        } else {
+            atacar(alvo); // ataque básico se não tem habilidade
+        }
+    }
+
+    // =======================
+    // Distribuição de pontos
+    // =======================
     public void distribuirPonto(String atributo, int quantidade) {
         if (pontosStatus <= 0) {
             System.out.println("Você não tem pontos para distribuir.");
             return;
         }
-
         if (pontosStatus < quantidade){
             System.out.println("Você não tem pontos o suficiente para distribuir");
             return;
@@ -72,63 +85,105 @@ public class Player extends Personagem {
                 pontosStatus -= quantidade;
                 System.out.println(nome + " aumentou ATQ! ATQ atual: " + ataque);
             }
+            case "defesa" -> {
+                defesa += quantidade * 1;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou DEF! DEF atual: " + defesa);
+            }
+            case "magia" -> {
+                magia += quantidade * 1;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou MAG! MAG atual: " + magia);
+            }
+            case "velocidade" -> {
+                velocidade += quantidade * 1;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou VEL! VEL atual: " + velocidade);
+            }
+            case "energia" -> {
+                energia += quantidade * 5;
+                pontosStatus -= quantidade;
+                System.out.println(nome + " aumentou ENE! ENE atual: " + energia);
+            }
             default -> System.out.println("Atributo inválido.");
-        }
-    }
-
-    public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
-        if (habilidade != null) {
-            System.out.println(nome + " usa " + habilidade.getNome() + " contra " + alvo.getNome() + "!");
-            habilidade.executar(this, alvo);
-            System.out.println("Causou " + habilidade.CalcularDanoFinal(this) + " de dano!");
-        } else {
-            // Ataque básico se não tem habilidade
-            System.out.println(nome + " ataca " + alvo.getNome() + "!");
-            alvo.receberDano(this.ataque);
-            System.out.println("Causou " + this.ataque + " de dano!");
         }
     }
 
     public void subirStatus() {
         if (pontosStatus > 0) {
-            System.out.println("Você tem " + pontosStatus + " pontos para distribuir:");
-            System.out.println("(1) Vida (+10 HP)");
-            System.out.println("(2) Ataque (+2 ATQ)");
-            // Por simplicidade, vamos distribuir automaticamente
-            if (pontosStatus >= 2) {
-                distribuirPonto("vida", 1);
-                distribuirPonto("ataque", 1);
-            } else if (pontosStatus == 1) {
-                distribuirPonto("vida", 1);
+            while (true) {
+                System.out.println("Você tem " + pontosStatus + " pontos para distribuir:");
+                System.out.println("(1) Vida (+10 HP)");
+                System.out.println("(2) Ataque (+2 ATQ)");
+                System.out.println("(3) Defesa (+1 DEF)");
+                System.out.println("(4) Magia (+1 MAG)");
+                System.out.println("(5) Velocidade (+1 VEL)");
+                System.out.println("(6) Energia (+5 ENE)");
+                System.out.println("(7) Sair");
+
+
+                Scanner scanner = new Scanner(System.in);
+                int escolha = scanner.nextInt();
+
+
+                if (escolha == 7) break;
+                switch (escolha) {
+                    case 1:
+                        distribuirPonto("vida", 1);
+                        break;
+                    case 2:
+                        distribuirPonto("ataque", 1);
+                        break;
+                    case 3:
+                        distribuirPonto("defesa", 1);
+                        break;
+                    case 4:
+                        distribuirPonto("magia", 1);
+                        break;
+                    case 5:
+                        distribuirPonto("velocidade", 1);
+                        break;
+                    case 6:
+                        distribuirPonto("energia", 1);
+                        break;
+                    default:
+                        System.out.println("Escolha inválida! Tente novamente.");
+                        break;
+                }
             }
+
         } else {
             System.out.println(nome + " não tem pontos para distribuir!");
         }
     }
 
-    public void equiparArma(Habilidade novaArma) {
-        this.arma = novaArma;
-        System.out.println(nome + " equipou " + novaArma.getNome() + "!");
+
+    // =======================
+    // Status do Player
+    // =======================
+    @Override
+    public void mostrarStatus() {
+        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
+                " | HP: " + hp +
+                " | ATQ: " + ataque +
+                " | DEF: " + defesa +
+                " | MAG: " + magia +
+                " | VEL: " + velocidade +
+                " | ENE: " + energia +
+                " | LVL: " + level +
+                " | Categoria: " + categoria.getNome() +
+                " | XP: " + experiencia);
     }
 
-    // Getters and Setters
-    public int getPontosLevel() {
-        return pontosLevel;
-    }
+    // =======================
+    // Getters e setters
+    // =======================
+    public int getExperiencia() { return experiencia; }
+    public void setExperiencia(int experiencia) { this.experiencia = experiencia; }
 
-    public void setPontosLevel(int pontosLevel) {
-        this.pontosLevel = pontosLevel;
-    }
+    public int getPontosStatus() { return pontosStatus; }
+    public void setPontosStatus(int pontosStatus) { this.pontosStatus = pontosStatus; }
 
-    public Habilidade getArma() {
-        return arma;
-    }
-
-    public void setArma(Habilidade arma) {
-        this.arma = arma;
-    }
-
-    public int getPontosStatus() {
-        return pontosStatus;
-    }
+    public int getPontosFe() { return pontosFe; }
+    public void setPontosFe(int pontosFe) { this.pontosFe = pontosFe; }
 }

@@ -109,7 +109,7 @@ public class Jogo {
 
             System.out.println("- " + jogador.getNome()
                     + " | HP: " + jogador.getHp()
-                    + " | XP: " + jogador.getPontosLevel()
+                    + " | XP: " + jogador.getLevel()
                     + " | Arma: " + nomeArma
                     + " | Status: " + status);
         }

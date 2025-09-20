@@ -15,6 +15,7 @@ public interface IPersonagem {
 
     // Combate
     void atacar(Personagem alvo);
+    void receberCura(int q);
     void receberDano(double dano);
     boolean estaVivo();
 

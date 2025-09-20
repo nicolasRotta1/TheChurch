@@ -1,63 +1,26 @@
 package Habilidades;
-
 import Personagens.Personagem;
 
-public class Habilidade implements IHabilidade{
-    private int id;
-    private String nome;
-    private String tipoHabilidade;
-    private double danoFinal;
-    private String descricao;
-    private static int ContadorId;
+public abstract class Habilidade implements IHabilidade {
+    protected String nome;
+    protected TipoHabilidade tipo;
+    protected double multiplicador;
+    protected String descricao;
 
-    public Habilidade(String nome, String tipoHabilidade, double danoFinal, String descricao) {
-        ContadorId++;
-        this.id = ContadorId;
+    public Habilidade(String nome, TipoHabilidade tipo, double mult, String descricao) {
         this.nome = nome;
-        this.tipoHabilidade = tipoHabilidade;
-        this.danoFinal = danoFinal;
+        this.tipo = tipo;
+        this.multiplicador = mult;
         this.descricao = descricao;
     }
 
+    // Cada tipo de habilidade (dano, cura) terá sua própria lógica
     @Override
-    public void executar(Personagem atacante,Personagem alvo) {
-        alvo.receberDano(CalcularDanoFinal(atacante));
-    }
+    public abstract void executar(Personagem atacante, Personagem alvo);
 
+    // O cálculo base pode ser diferente para cada tipo de habilidade
     @Override
-    public double CalcularDanoFinal(Personagem personagem) {
-        return (personagem.getAtaque() * danoFinal);
-    }
+    public abstract double calcularEfeitoBase(Personagem personagem);
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getTipoHabilidade() {
-        return tipoHabilidade;
-    }
-
-    public void setTipoHabilidade(String tipoHabilidade) {
-        this.tipoHabilidade = tipoHabilidade;
-    }
-
-    public double getDanoFinal() {
-        return danoFinal;
-    }
-
-    public void setDanoFinal(double danoFinal) {
-        this.danoFinal = danoFinal;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+    public String getNome() { return nome; }
 }
