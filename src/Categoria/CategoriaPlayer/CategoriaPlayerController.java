@@ -1,20 +1,42 @@
 package Categoria.CategoriaPlayer;
 
-import java.util.List;
+import Categoria.TipoCriatura;
+import Personagens.Player;
+import Categoria.Efeito;
 
 public class CategoriaPlayerController {
 
-    public List<Class<? extends CategoriaPlayer>> getEvolucoes(CategoriaPlayer atual) {
-        return atual.getEvolucoes();
+    private final CategoriaPlayer categoria;
+
+    public CategoriaPlayerController(CategoriaPlayer categoria) {
+        this.categoria = categoria;
     }
 
-    public CategoriaPlayer evoluir(CategoriaPlayer atual, int escolha) throws Exception {
-        List<Class<? extends CategoriaPlayer>> evolucoes = atual.getEvolucoes();
-        if (escolha < 0 || escolha >= evolucoes.size()) {
-            throw new IllegalArgumentException("Escolha inválida!");
+    public void aplicarEfeitos(Player player) {
+        for (Efeito efeito : categoria.getEfeitos()) {
+            switch (efeito.getTag()) {
+                case "ATQ" -> player.setAtaque((int)(player.getAtaque() * efeito.getMultiplicador()));
+                case "DEF" -> player.setDefesa((int)(player.getDefesa() * efeito.getMultiplicador()));
+                case "MAG" -> player.setMagia((int)(player.getMagia() * efeito.getMultiplicador()));
+                case "VEL" -> player.setVelocidade((int)(player.getVelocidade() * efeito.getMultiplicador()));
+                case "HP"  -> player.setHp((int)(player.getHp() * efeito.getMultiplicador()));
+            }
+        }
+    }
+
+    public double calcularMultiplicadorContra(TipoCriatura tipoInimigo) {
+        double mult = 1.0;
+
+        for (Vantagem v : categoria.getVantagensEnum()) {
+            if (v.getTipo() == tipoInimigo) mult *= 1.5;
+            break;
         }
 
+        for (Fraqueza f : categoria.getFraquezasEnum()) {
+            if (f.getTipo() == tipoInimigo) mult *= 0.8;
+            break;
+        }
 
-        return evolucoes.get(escolha).getDeclaredConstructor().newInstance();
+        return mult;
     }
 }

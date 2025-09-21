@@ -1,5 +1,8 @@
 package Categoria;
 
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
+import Personagens.Inimigos.Inimigo;
 import Personagens.Personagem;
 
 public class CategoriaController implements ICategoria {
@@ -10,11 +13,9 @@ public class CategoriaController implements ICategoria {
         this.categoria = categoria;
     }
 
-
-    public CategoriaGeral getcategoria() {
+    public CategoriaGeral getCategoria() {
         return categoria;
     }
-
 
     @Override
     public void subirStatus(Personagem personagem) {
@@ -31,26 +32,26 @@ public class CategoriaController implements ICategoria {
     }
 
     @Override
-    public void verificarFraqueza(Personagem alvo) {
+    public void verificarFraqueza(Inimigo alvo) {
         double mult = 1.0;
 
+        TipoCriatura tipoAlvo = alvo.getCategoria().getTipoCriatura(); // assume que CategoriaGeral ou CategoriaPlayer/ Inimigo tenha método getTipoCriatura()
+
         // Vantagens
-        for (String v : categoria.getVantagens()) {
-            if (alvo.getCategoria().getNome().equalsIgnoreCase(v)) {
+        for (Vantagem v : getCategoria().getVantagensEnum()) {
+            if (v.getTipo() == tipoAlvo) {
                 mult *= 1.5; // dano extra
             }
         }
 
         // Fraquezas
-        for (String f : categoria.getFraquezas()) {
-            if (alvo.getCategoria().getNome().equalsIgnoreCase(f)) {
+        for (Fraqueza f : categoria.getFraquezasEnum()) { // método retorna List<Fraqueza>
+            if (f.getTipo() == tipoAlvo) {
                 mult *= 0.5; // dano reduzido
             }
         }
 
-
+        // Aplica multiplicador no HP do alvo
         alvo.setHp((int)(alvo.getHp() * mult));
     }
-
-
 }

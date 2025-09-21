@@ -2,18 +2,12 @@ package Categoria.CategoriaInimigo;
 
 public class CategoriaInimigoController {
 
-    private CategoriaInimigo classeInimigo;
+    private CategoriaInimigo inimigo;
 
-    public CategoriaInimigoController(CategoriaInimigo classeInimigo) {
-        this.classeInimigo = classeInimigo;
+    public CategoriaInimigoController(CategoriaInimigo inimigo) {
+        this.inimigo = inimigo;
     }
 
-
-    public CategoriaInimigo getClasseInimigo() {
-        return classeInimigo;
-    }
-
-    public void setClasseInimigo(CategoriaInimigo classeInimigo) {
-        this.classeInimigo = classeInimigo;
-    }
+    public CategoriaInimigo getInimigo() { return inimigo; }
+    public void setInimigo(CategoriaInimigo inimigo) { this.inimigo = inimigo; }
 }

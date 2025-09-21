@@ -1,6 +1,8 @@
 package Categoria.CategoriaPlayer.Categorias;
 
 import Categoria.CategoriaPlayer.CategoriaPlayer;
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
 import Habilidades.HabilidadesFactory;
 import java.util.Arrays;
@@ -10,8 +12,8 @@ public class CavaleiroDivino extends CategoriaPlayer {
         super(
             "Cavaleiro Divino",
             "Cavaleiro com poderes divinos.",
-            Arrays.asList("DEMONIO"),
-            Arrays.asList("VAMPIRO"),
+            Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
+            Arrays.asList(Fraqueza.VULNERAVEL_A_DEMONIOS),
             Arrays.asList(HabilidadesFactory.INVESTIDA_DIVINA, HabilidadesFactory.FORTALEZA_SAGRADA, HabilidadesFactory.RESISTENCIA),
             Arrays.asList(EfeitoPlayer.AUMENTO_DEF)
         );

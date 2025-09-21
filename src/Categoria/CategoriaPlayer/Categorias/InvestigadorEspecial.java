@@ -1,9 +1,7 @@
 package Categoria.CategoriaPlayer.Categorias;
 
 import Categoria.CategoriaPlayer.CategoriaPlayer;
-import Categoria.Efeito;
 import Categoria.EfeitoPlayer;
-import Habilidades.Habilidade;
 import Habilidades.HabilidadesFactory;
 import java.util.Arrays;
 
@@ -21,6 +19,6 @@ public class InvestigadorEspecial extends CategoriaPlayer {
 
     @Override
     public void configurarEvolucoes() {
-        addEvolucao(CaçadorDeSombras.class);
+        addEvolucao(CaçadorDasSombras.class);
     }
 }
