@@ -1,4 +1,4 @@
-package Categoria.CategoriaPlayer;
+    package Categoria.CategoriaPlayer;
 
 import Categoria.CategoriaGeral;
 import Categoria.Efeito;

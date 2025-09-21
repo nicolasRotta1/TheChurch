@@ -38,8 +38,8 @@ public enum EfeitoGeral implements Efeito {
     TIPO_ANJO("ANJO_CAIDO", 1.0, "Tipo Anjo Caído"),
 
     // Criaturas da peste
-    CONTRA_PESTES("CRiATURA_DA_PESTE", 1.5, "Mais eficaz contra criaturas da peste"),
-    TIPO_PESTE("CRiATURA_DA_PESTE", 1.0, "Tipo Criatura da Peste"),
+    CONTRA_PESTES("CRIATURA_DA_PESTE", 1.5, "Mais eficaz contra criaturas da peste"),
+    TIPO_PESTE("CRIATURA_DA_PESTE", 1.0, "Tipo Criatura da Peste"),
 
     // Aberrações demoníacas
     CONTRA_ABERRACOES("ABERRACAO_DEMONIACA", 1.5, "Mais eficaz contra aberrações demoníacas"),
