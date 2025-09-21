@@ -29,6 +29,9 @@ public class HabilidadesFactory {
             2.0,
             "Exorcismo poderoso que causa dano mágico aumentado"
     );
+    public static final Habilidade EXECUCAO_LENDARIA = new HabilidadeDeDanoFisico("Execução Lendária", TipoHabilidade.ESPECIAL, 2.5, "Ataque físico alto com precisão mortal");
+    public static final Habilidade GOLPE_ABENCOADO = new HabilidadeDeDanoFisico("Golpe Abençoado", TipoHabilidade.PRIMARIA, 1.3, "Ataque físico abençoado");
+    public static final Habilidade GOLPE_DA_LUZ = new HabilidadeDeDanoFisico("Golpe da Luz", TipoHabilidade.PRIMARIA, 1.6, "Ataque físico sagrado");
 
     // =======================
     // Habilidades de dano mágico
@@ -80,10 +83,17 @@ public class HabilidadesFactory {
     public static final Habilidade AURA_DIVINA = new HabilidadeDeBuff("Aura Divina", List.of("ataque","defesa","magia","velocidade","energia"), 5, "Todos os atributos aliados + cura contínua");
     public static final Habilidade ESCUDO_CELESTIAL = new HabilidadeDeBuff("Escudo Celestial", List.of("defesa","energia"), 10, "Aumenta defesa e HP aliados");
     public static final Habilidade PROTECAO_TOTAL = new HabilidadeDeBuff("Proteção Total", List.of("ataque","defesa","magia","velocidade","energia"), 5, "Buff que aumenta todos os atributos aliados");
+    public static final Habilidade MESTRE_CACADOR = new HabilidadeDeBuff("Mestre Caçador", List.of("ataque","defesa","magia","velocidade","energia"), 5, "Aumenta todos os atributos");
+    public static final Habilidade PROTECAO_INICIAL = new HabilidadeDeBuff("Proteção Inicial", List.of("defesa"), 5, "Aumenta defesa inicial do aliado");
+    public static final Habilidade ESCUDO_SAGRADO = new HabilidadeDeBuff("Escudo Sagrado", List.of("defesa"), 5, "Aumenta defesa");
+    public static final Habilidade AURA_VITAL = new HabilidadeDeBuff("Aura Vital", List.of("HP","energia"), 10, "Aumenta HP e energia");
+    public static final Habilidade PROTECAO_SUPREMA = new HabilidadeDeBuff("Proteção Suprema", List.of("defesa","HP"), 10, "Aumenta defesa e HP aliados");
+    public static final Habilidade INSPIRACAO = new HabilidadeDeBuff("Inspiração", List.of("magia"), 5, "Aumenta magia do aliado");
 
     // =======================
-// Habilidades de debuff
-// =======================
+    // Habilidades de debuff
+    // =======================
+
     public static final Habilidade MEDO_FANTASMAL = new HabilidadeDeDebuff("Medo Fantasmal", List.of("ataque"), 5, "Reduz ataque inimigo");
     public static final Habilidade INTIMIDACAO_DEMONIACA = new HabilidadeDeDebuff("Intimidação Demoníaca", List.of("magia"), 5, "Reduz magia inimiga");
     public static final Habilidade MALDICAO_PURIFICADORA = new HabilidadeDeDebuff("Maldição Purificadora", List.of("magia"), 5, "Reduz magia inimiga");

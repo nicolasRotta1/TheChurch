@@ -33,4 +33,13 @@ public abstract class CategoriaGeral {
         return Collections.unmodifiableList(efeitos);
     }
 
+    public List<String> getVantagens() {
+        return Collections.unmodifiableList(vantagens);
+    }
+
+    public List<String> getFraquezas() {
+        return Collections.unmodifiableList(fraquezas);
+    }
+
+
 }

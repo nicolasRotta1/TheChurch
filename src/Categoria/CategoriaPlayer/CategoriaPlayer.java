@@ -15,7 +15,7 @@ public abstract class CategoriaPlayer extends CategoriaGeral {
                            List<Habilidade> habilidades, List<Efeito> efeitos) {
         super(nome, descricao, vantagens, fraquezas, habilidades, efeitos);
         this.evolucoes = new ArrayList<>();
-        configurarEvolucoes(); // toda subclasse já define suas evoluções
+        configurarEvolucoes();
     }
 
     public void addEvolucao(Class<? extends CategoriaPlayer> cls) {
