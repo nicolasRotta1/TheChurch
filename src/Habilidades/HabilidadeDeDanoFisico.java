@@ -3,9 +3,9 @@ package Habilidades;
 import Personagens.Personagem;
 import Categoria.Utils;
 
-public class HabilidadeDeDanoFísico extends Habilidade {
+public class HabilidadeDeDanoFisico extends Habilidade {
 
-    public HabilidadeDeDanoFísico(String nome, TipoHabilidade tipo, double mult, String descricao) {
+    public HabilidadeDeDanoFisico(String nome, TipoHabilidade tipo, double mult, String descricao) {
         super(nome, tipo, mult, descricao);
     }
 

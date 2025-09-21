@@ -190,7 +190,8 @@ public class Player extends Personagem {
                 " | ENE: " + energia +
                 " | LVL: " + level +
                 " | Categoria: " + categoria.getNome() +
-                " | XP: " + experiencia);
+                " | XP: " + experiencia +
+                " | Fé: " + pontosFe);
     }
 
     // =======================
