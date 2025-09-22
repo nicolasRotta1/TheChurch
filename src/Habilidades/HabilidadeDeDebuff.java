@@ -27,9 +27,13 @@ public class HabilidadeDeDebuff extends Habilidade {
             }
         }
 
+        // Adiciona este debuff aos efeitos temporários do alvo
+        alvo.getEfeitosTemporarios().add(this);
+
         System.out.println(atacante.getNome() + " usou " + getNome() + " e reduziu " +
-                atributos + " de " + alvo.getNome() + " em " + quantidade);
+                atributos + " de " + alvo.getNome() + " em " + quantidade + " (1 turno)");
     }
+
 
     @Override
     public double calcularEfeitoBase(Personagem personagem) {

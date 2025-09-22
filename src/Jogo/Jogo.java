@@ -38,7 +38,7 @@ public class Jogo {
             System.out.println("\n=== Menu ===");
             System.out.println("1) Evoluir jogadores");
             System.out.println("2) Subir status dos jogadores");
-            System.out.println("3) Iniciar batalhas");
+            System.out.println("3) Iniciar batalha");
             System.out.print("Escolha uma opção: ");
             int escolha = sc.nextInt();
 
@@ -90,15 +90,9 @@ public class Jogo {
             System.out.println("\n>>> Um inimigo aparece!");
             inimigo.mostrarStatus();
 
-            Batalha batalha = new Batalha(jogadores.get(0), inimigo); // Exemplo: 1 player x 1 inimigo
+            // Passa a lista completa de jogadores para a batalha
+            Batalha batalha = new Batalha(jogadores, inimigo);
             batalha.iniciar();
-
-            // Recompensa de XP
-            for (Player p : jogadores) {
-                if (p.estaVivo()) {
-                    p.ganharExperiencia(inimigo.getXp());
-                }
-            }
 
             // Recuperação simples entre batalhas
             for (Player p : jogadores) {
