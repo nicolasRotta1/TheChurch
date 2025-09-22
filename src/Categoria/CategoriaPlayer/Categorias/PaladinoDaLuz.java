@@ -2,6 +2,8 @@ package Categoria.CategoriaPlayer.Categorias;
 
 import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Categorias.TemplarioSupremo;
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.Efeito;
 import Categoria.EfeitoPlayer;
 import Habilidades.Habilidade;
@@ -13,8 +15,8 @@ public class PaladinoDaLuz extends CategoriaPlayer {
         super(
             "Paladino da Luz",
             "Intermediário guerreiro sagrado.",
-            Arrays.asList("DEMONIO"),
-            Arrays.asList("FANTASMA"),
+            Arrays.asList(Vantagem.CONTRA_ESPIRITOS, Vantagem.CONTRA_ANJOS),
+            Arrays.asList(Fraqueza.VULNERAVEL_A_VAMPIROS, Fraqueza.VULNERAVEL_A_BRUXOS),
             Arrays.asList(HabilidadesFactory.ATAQUE_CELESTIAL, HabilidadesFactory.FORCA_LUZ, HabilidadesFactory.VIGOR_DIVINO),
             Arrays.asList(EfeitoPlayer.AUMENTO_ATQ, EfeitoPlayer.AUMENTO_DEF)
         );

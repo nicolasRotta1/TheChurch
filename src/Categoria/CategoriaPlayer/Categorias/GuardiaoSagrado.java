@@ -1,6 +1,8 @@
 package Categoria.CategoriaPlayer.Categorias;
 
 import Categoria.CategoriaPlayer.CategoriaPlayer;
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.Efeito;
 import Categoria.EfeitoPlayer;
 import Habilidades.Habilidade;
@@ -12,8 +14,8 @@ public class GuardiaoSagrado extends CategoriaPlayer {
         super(
             "Guardião Sagrado",
             "Protetor avançado de aliados.",
-            Arrays.asList("ALIADO"),
-            Arrays.asList("DEMONIO"),
+            Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
+            Arrays.asList(Fraqueza.VULNERAVEL_A_LOBISOMENS, Fraqueza.VULNERAVEL_A_VAMPIROS),
             Arrays.asList(HabilidadesFactory.PROTECAO_SUPREMA, HabilidadesFactory.AURA_PROTETORA2, HabilidadesFactory.FORCA_GUARDIAO),
             Arrays.asList(EfeitoPlayer.AUMENTO_DEF, EfeitoPlayer.AUMENTO_MAG)
         );
