@@ -1,6 +1,10 @@
 package Personagens;
 
 import Categoria.CategoriaGeral;
+import Habilidades.Habilidade;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Personagem implements IPersonagem {
     private static int contador = 0;
@@ -12,15 +16,25 @@ public abstract class Personagem implements IPersonagem {
     protected int hp;
     protected int ataque;
     protected int defesa;            // Reduz dano recebido
-    protected int magia;            // Para habilidades especiais
-    protected double esquiva;       // 0.0 a 1.0, chance de evitar ataques
-    protected double critico;       // 0.0 a 1.0, chance de dano crítico
-    protected int energia;          // Para usar habilidades
+    protected int magia;             // Para habilidades especiais
+    protected double esquiva;        // 0.0 a 1.0, chance de evitar ataques
+    protected double critico;        // 0.0 a 1.0, chance de dano crítico
+    protected int energia;           // Para usar habilidades
+
+    // Valores base (usados para resetar buffs/debuffs temporários)
+    private int ataqueBase;
+    private int defesaBase;
+    private int magiaBase;
+    private int energiaBase;
 
     protected int level;
     protected boolean vivo = true;
 
-    public Personagem(String nome, CategoriaGeral categoria, int hp, int ataque, int defesa, int magia, double esquiva, double critico, int energia) {
+    // Lista para efeitos temporários (buffs/debuffs de 1 turno)
+    protected List<Habilidade> efeitosTemporarios = new ArrayList<>();
+
+    public Personagem(String nome, CategoriaGeral categoria, int hp, int ataque, int defesa,
+                      int magia, double esquiva, double critico, int energia) {
         this.id = ++contador;
         this.nome = nome;
         this.categoria = categoria;
@@ -31,6 +45,12 @@ public abstract class Personagem implements IPersonagem {
         this.esquiva = esquiva;
         this.critico = critico;
         this.energia = energia;
+
+        // guardar valores base
+        this.ataqueBase = ataque;
+        this.defesaBase = defesa;
+        this.magiaBase = magia;
+        this.energiaBase = energia;
     }
 
     // =======================
@@ -65,6 +85,19 @@ public abstract class Personagem implements IPersonagem {
 
     public boolean atacarCritico() {
         return Math.random() < critico;
+    }
+
+    /**
+     * Reseta atributos modificados e remove buffs/debuffs temporários.
+     * Deve ser chamado no fim do turno.
+     */
+    public void limparEfeitosTemporarios() {
+        this.ataque = this.ataqueBase;
+        this.defesa = this.defesaBase;
+        this.magia  = this.magiaBase;
+        this.energia = this.energiaBase;
+
+        this.efeitosTemporarios.clear();
     }
 
     @Override
@@ -108,6 +141,10 @@ public abstract class Personagem implements IPersonagem {
 
     public boolean isVivo() { return vivo; }
     public void setVivo(boolean vivo) { this.vivo = vivo; }
+
+    public List<Habilidade> getEfeitosTemporarios() {
+        return efeitosTemporarios;
+    }
 
     // =======================
     // Métodos abstratos

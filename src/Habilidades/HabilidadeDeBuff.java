@@ -27,9 +27,13 @@ public class HabilidadeDeBuff extends Habilidade {
             }
         }
 
+        // Adiciona o efeito na lista de temporários
+        alvo.getEfeitosTemporarios().add(this);
+
         System.out.println(atacante.getNome() + " usou " + getNome() + " e aumentou " +
                 atributos + " de " + alvo.getNome() + " em " + quantidade);
     }
+
 
     @Override
     public double calcularEfeitoBase(Personagem personagem) {

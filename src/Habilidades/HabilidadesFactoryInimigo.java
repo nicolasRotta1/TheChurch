@@ -13,7 +13,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade ESPECTRO_ABISSAL = new HabilidadeDeDanoMagico("Espectro Abissal", TipoHabilidade.ESPECIAL, 1.5, "Dano mágico poderoso do além");
     public static final Habilidade CURA_FANTASMAL = new HabilidadeDeCura("Cura Fantasmal", TipoHabilidade.CURA, 1.2, "Restaura HP do fantasma");
     public static final Habilidade REGENERACAO_ETEREA = new HabilidadeDeCura("Regeneração Etérea", TipoHabilidade.CURA, 1.3, "Cura gradual baseada na energia espiritual");
-    public static final Habilidade DESORIENTACAO_FANTASMAL = new HabilidadeDeDebuff("Desorientação Fantasmal", List.of("velocidade","ataque"), 5, "Reduz velocidade e ataque do alvo");
+    public static final Habilidade DESORIENTACAO_FANTASMAL = new HabilidadeDeDebuff("Desorientação Fantasmal", List.of("defesa","ataque"), 5, "Reduz velocidade e ataque do alvo");
     public static final Habilidade FANTASMA_ASSOMBRADOR = new HabilidadeDeDebuff("Fantasma Assombrador", List.of("defesa","magia"), 5, "Reduz defesa e magia do inimigo");
     public static final Habilidade SOMBRAS_PROTETORAS = new HabilidadeDeBuff("Sombras Protetoras", List.of("defesa"), 5, "Aumenta defesa de fantasmas");
     public static final Habilidade AURA_ESPECTRAL = new HabilidadeDeBuff("Aura Espectral", List.of("ataque","magia"), 5, "Aumenta ataque e magia de fantasmas");
@@ -28,7 +28,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade CURA_POLTERGEIST = new HabilidadeDeCura("Cura Poltergeist", TipoHabilidade.CURA, 1.2, "Restaura HP do poltergeist");
     public static final Habilidade REGENERACAO_TERROR = new HabilidadeDeCura("Regeneração do Terror", TipoHabilidade.CURA, 1.3, "Cura gradual baseada na energia de medo");
     public static final Habilidade CONFUSAO_POLTERGEIST = new HabilidadeDeDebuff("Confusão", List.of("ataque","defesa"), 5, "Reduz ataque e defesa do inimigo");
-    public static final Habilidade TERROR_POLTERGEIST = new HabilidadeDeDebuff("Terror Poltergeist", List.of("velocidade"), 5, "Reduz velocidade inimiga");
+    public static final Habilidade TERROR_POLTERGEIST = new HabilidadeDeDebuff("Terror Poltergeist", List.of("defesa"), 5, "Reduz velocidade inimiga");
     public static final Habilidade PROTECAO_POLTERGEIST = new HabilidadeDeBuff("Proteção Poltergeist", List.of("defesa"), 5, "Aumenta defesa de poltergeists");
     public static final Habilidade FORCA_POLTERGEIST = new HabilidadeDeBuff("Força Poltergeist", List.of("ataque","magia"), 5, "Aumenta ataque e magia de poltergeists");
 
@@ -58,7 +58,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade PROTECAO_ARCANICA = new HabilidadeDeBuff("Proteção Arcânica", List.of("defesa","magia"), 5, "Aumenta defesa e magia do bruxo");
     public static final Habilidade ENERGIA_ARCANICA = new HabilidadeDeBuff("Energia Arcânica", List.of("magia","ataque"), 5, "Aumenta magia e ataque do bruxo");
     public static final Habilidade CURSE_WEAKNESS = new HabilidadeDeDebuff("Maldição da Fraqueza", List.of("ataque","defesa"), 5, "Reduz ataque e defesa do inimigo");
-    public static final Habilidade HEX_ARCANICO = new HabilidadeDeDebuff("Hex Arcânico", List.of("velocidade","magia"), 5, "Reduz velocidade e magia do inimigo");
+    public static final Habilidade HEX_ARCANICO = new HabilidadeDeDebuff("Hex Arcânico", List.of("defesa","magia"), 5, "Reduz velocidade e magia do inimigo");
 
     // =======================
 // DEMÔNIO
@@ -70,7 +70,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade REGEN_DEMONIACA = new HabilidadeDeCura("Regeneração Demoníaca", TipoHabilidade.CURA, 1.3, "Cura do HP do demônio com energia maligna");
     public static final Habilidade ABSORVER_ENERGIA = new HabilidadeDeCura("Absorver Energia", TipoHabilidade.CURA, 1.4, "Cura baseada no dano causado");
     public static final Habilidade FURIA_DEMONIACA = new HabilidadeDeBuff("Fúria Demoníaca", List.of("ataque"), 5, "Aumenta ataque do demônio");
-    public static final Habilidade TERROR_ABISSAL = new HabilidadeDeBuff("Terror Abissal", List.of("ataque","velocidade"), 5, "Aumenta ataque e velocidade do demônio");
+    public static final Habilidade TERROR_ABISSAL = new HabilidadeDeBuff("Terror Abissal", List.of("ataque", "defesa"), 5, "Aumenta ataque e velocidade do demônio");
     public static final Habilidade INTIMIDACAO_DEMONIACA = new HabilidadeDeDebuff("Intimidação Demoníaca", List.of("magia"), 5, "Reduz magia inimiga");
     public static final Habilidade MALDICAO_DO_INFERNO = new HabilidadeDeDebuff("Maldição do Inferno", List.of("ataque","defesa"), 5, "Reduz ataque e defesa do inimigo");
 
@@ -85,7 +85,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade REGEN_ESPIRITUAL = new HabilidadeDeCura("Regeneração Espiritual", TipoHabilidade.CURA, 1.3, "Cura gradual do espírito");
     public static final Habilidade ESCUDO_ESPIRITUAL = new HabilidadeDeBuff("Escudo Espiritual", List.of("defesa"), 5, "Aumenta defesa do espírito");
     public static final Habilidade AURA_ESPIRITUAL = new HabilidadeDeBuff("Aura Espiritual", List.of("ataque","magia"), 5, "Aumenta ataque e magia do espírito");
-    public static final Habilidade CONFUSAO_ESPIRITUAL = new HabilidadeDeDebuff("Confusão Espiritual", List.of("velocidade","ataque"), 5, "Reduz velocidade e ataque inimigo");
+    public static final Habilidade CONFUSAO_ESPIRITUAL = new HabilidadeDeDebuff("Confusão Espiritual", List.of("defesa","ataque"), 5, "Reduz velocidade e ataque inimigo");
     public static final Habilidade TERROR_ESPIRITUAL = new HabilidadeDeDebuff("Terror Espiritual", List.of("defesa","magia"), 5, "Reduz defesa e magia do inimigo");
 
     // =======================
@@ -97,7 +97,7 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade RONCO_ARCANO = new HabilidadeDeDanoMagico("Ronco Arcano", TipoHabilidade.ESPECIAL, 1.6, "Dano mágico poderoso");
     public static final Habilidade CURA_LOBISOMEM = new HabilidadeDeCura("Cura Lupina", TipoHabilidade.CURA, 1.2, "Cura HP com energia bestial");
     public static final Habilidade REGENERACAO_LOBISOMEM = new HabilidadeDeCura("Regeneração Lupina", TipoHabilidade.CURA, 1.3, "Cura gradual baseada na fúria");
-    public static final Habilidade RAIVA_LOBISOMEM = new HabilidadeDeBuff("Raiva Lupina", List.of("ataque","velocidade"), 5, "Aumenta ataque e velocidade");
+    public static final Habilidade RAIVA_LOBISOMEM = new HabilidadeDeBuff("Raiva Lupina", List.of("ataque","defesa"), 5, "Aumenta ataque e velocidade");
     public static final Habilidade RESISTENCIA_LOBISOMEM = new HabilidadeDeBuff("Resistência Lupina", List.of("defesa","HP"), 5, "Aumenta defesa e HP");
     public static final Habilidade MEDO_LUPINO = new HabilidadeDeDebuff("Medo Lupino", List.of("defesa"), 5, "Reduz defesa do alvo");
     public static final Habilidade TERROR_LOPINO = new HabilidadeDeDebuff("Terror Lupino", List.of("ataque","magia"), 5, "Reduz ataque e magia inimiga");
@@ -108,9 +108,9 @@ public class HabilidadesFactoryInimigo {
     public static final Habilidade LUZ_CORRUPTA = new HabilidadeDeDanoMagico("Luz Corrupta", TipoHabilidade.PRIMARIA, 1.5, "Dano mágico corrompido");
     public static final Habilidade GOLPE_AEREO = new HabilidadeDeDanoFisico("Golpe Aéreo", TipoHabilidade.PRIMARIA, 1.4, "Ataque físico devastador");
     public static final Habilidade MALDICAO_CELESTIAL = new HabilidadeDeDebuff("Maldição Celestial", List.of("ataque","magia"), 5, "Reduz ataque e magia do inimigo");
-    public static final Habilidade DESOLACAO = new HabilidadeDeDebuff("Desolação", List.of("defesa","velocidade"), 5, "Reduz defesa e velocidade do inimigo");
+    public static final Habilidade DESOLACAO = new HabilidadeDeDebuff("Desolação", List.of("defesa","ataque"), 5, "Reduz defesa e ataque do inimigo");
     public static final Habilidade BENCAO_MALDITA = new HabilidadeDeBuff("Bênção Maldita", List.of("ataque","magia"), 5, "Aumenta ataque e magia do Anjo Caído");
-    public static final Habilidade PROTECAO_SOMBRA = new HabilidadeDeBuff("Proteção Sombria", List.of("defesa","velocidade"), 5, "Aumenta defesa e velocidade aliados");
+    public static final Habilidade PROTECAO_SOMBRA = new HabilidadeDeBuff("Proteção Sombria", List.of("defesa","ataque"), 5, "Aumenta defesa e o ataque");
     public static final Habilidade CURA_CELSTIAL = new HabilidadeDeCura("Cura Celestial", TipoHabilidade.CURA, 1.3, "Cura HP do Anjo Caído");
     public static final Habilidade REGENERACAO_CORRUPTA = new HabilidadeDeCura("Regeneração Corrupta", TipoHabilidade.CURA, 1.4, "Cura gradual com energia corrompida");
 
