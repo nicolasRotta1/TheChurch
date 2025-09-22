@@ -14,7 +14,8 @@ public enum Vantagem {
     CONTRA_BONECOS(TipoCriatura.BONECO_AMALDICOADO),
     CONTRA_OBJETOS(TipoCriatura.OBJETO_AMALDICOADO),
     CONTRA_PESTES(TipoCriatura.CRIATURA_DA_PESTE),
-    CONTRA_ABERRACOES(TipoCriatura.ABERRACAO_DEMONIACA);
+    CONTRA_ABERRACOES(TipoCriatura.ABERRACAO_DEMONIACA),
+    CONTRA_ANTICRISTO(TipoCriatura.ANTI_CRISTO);
 
     private final TipoCriatura tipo;
 

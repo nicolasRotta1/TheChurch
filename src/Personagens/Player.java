@@ -1,9 +1,15 @@
 package Personagens;
 
-import Categoria.CategoriaGeral;
+import Categoria.CategoriaController;
+import Categoria.CategoriaInimigo.CategoriaInimigo;
 import Categoria.CategoriaPlayer.CategoriaPlayer;
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
+import Categoria.TipoCriatura;
 import Habilidades.Habilidade;
+import Habilidades.TipoHabilidade;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Player extends Personagem {
@@ -13,11 +19,11 @@ public class Player extends Personagem {
     private int pontosFe;
 
     public Player(String nome, CategoriaPlayer categoria,
-                  int hp, int ataque, int defesa, int magia, int velocidade,
-                  double esquiva, double critico, int resistenciaMagica, int energia,
+                  int hp, int ataque, int defesa, int magia,
+                  double esquiva, double critico, int energia,
                   int level, int pontosStatus, int experiencia, int pontosFe) {
 
-        super(nome, categoria, hp, ataque, defesa, magia, velocidade, esquiva, critico, resistenciaMagica, energia);
+        super(nome, categoria, hp, ataque, defesa, magia, esquiva, critico, energia);
         this.level = level;
         this.pontosStatus = pontosStatus;
         this.experiencia = experiencia;
@@ -35,34 +41,110 @@ public class Player extends Personagem {
 
     @Override
     public void atacar(Personagem alvo) {
-        double chanceEsquiva = Math.random();
-        if (chanceEsquiva < alvo.getEsquiva()) {
+        if (!alvo.estaVivo()) {
+            System.out.println(alvo.getNome() + " já está derrotado!");
+            return;
+        }
+
+        TipoCriatura tipoAlvo = null;
+        if (alvo.getCategoria() instanceof CategoriaInimigo) {
+            tipoAlvo = ((CategoriaInimigo) alvo.getCategoria()).getTipoCriatura();
+        }
+
+        if (alvo.tentarEsquiva()) {
             System.out.println(alvo.getNome() + " esquivou do ataque!");
             return;
         }
 
-        // Dano reduzido pela defesa
-        int dano = (int)(this.ataque * (1 - 0.05 * alvo.getDefesa()));
-        if (dano < 0) dano = 0;
+        double mult = 1.0;
 
-        // Crítico
-        if (Math.random() < this.critico) {
-            dano *= 2;
-            System.out.println("CRÍTICO!");
+        if (this.getCategoria() instanceof CategoriaPlayer) {
+            CategoriaPlayer catPlayer = (CategoriaPlayer) this.getCategoria();
+
+            // Vantagens
+            for (Vantagem v : catPlayer.getVantagensEnum()) {
+                if (v.getTipo() == tipoAlvo) {
+                    mult *= 1.5;
+                    System.out.println("Vantagem aplicada! Dano aumentado.");
+                }
+            }
+
+            // Fraquezas
+            for (Fraqueza f : catPlayer.getFraquezasEnum()) {
+                if (f.getTipo() == tipoAlvo) {
+                    mult *= 0.5;
+                    System.out.println("Fraqueza aplicada! Dano reduzido.");
+                }
+            }
         }
 
-        alvo.setHp(alvo.getHp() - dano);
-        System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano! (HP restante: " + alvo.getHp() + ")");
+        int danoBase = this.getAtaque();
+        if (this.atacarCritico()) {
+            danoBase *= 2;
+            System.out.println("ACERTO CRÍTICO!");
+        }
+
+        int danoFinal = (int) (danoBase * mult - alvo.getDefesa());
+        if (danoFinal < 0) danoFinal = 0;
+
+        alvo.receberDano(danoFinal);
+
+        System.out.println(this.getNome() + " atacou " + alvo.getNome() + " causando " + danoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
     }
+
+    public void evoluir(int opcao) {
+        CategoriaPlayer catAtual;
+
+        try {
+            catAtual = (CategoriaPlayer) getCategoria();
+        } catch (ClassCastException e) {
+            System.out.println("Essa categoria não pode evoluir!");
+            return;
+        }
+
+        catAtual.configurarEvolucoes();
+        List<Class<? extends CategoriaPlayer>> evolucoes = catAtual.getEvolucoes();
+
+        if (evolucoes.isEmpty()) {
+            System.out.println(getNome() + " não pode evoluir mais!");
+            return;
+        }
+
+        if (opcao < 0 || opcao >= evolucoes.size()) {
+            System.out.println("Opção inválida! Escolha entre 0 e " + (evolucoes.size() - 1));
+            return;
+        }
+
+        int custoFe = catAtual.getCustoEvolucao(); // supondo que cada categoria tenha um custo de evolução
+        if (pontosFe < custoFe) {
+            System.out.println("Você não tem fé suficiente para evoluir! Custo: " + custoFe + " | Fé atual: " + pontosFe);
+            return;
+        }
+
+        try {
+            CategoriaPlayer novaCategoria = evolucoes.get(opcao).getDeclaredConstructor().newInstance();
+            setCategoria(novaCategoria);
+            pontosFe -= custoFe; // desconta a fé usada na evolução
+            System.out.println(getNome() + " evoluiu para " + novaCategoria.getNome() + "! Fé restante: " + pontosFe);
+        } catch (Exception e) {
+            System.out.println("Erro ao evoluir: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+
 
 
     public void ganharExperiencia(int xp) {
         experiencia += xp;
         System.out.println(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
-        if (experiencia >= level * 100) {
+        while (experiencia >= level * 100) {
             experiencia -= level * 100;
             subirLevel();
         }
+
+
     }
 
     // =======================
@@ -71,13 +153,76 @@ public class Player extends Personagem {
 
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
-        if (habilidade != null) {
-            System.out.println(nome + " usa " + habilidade.getNome() + " contra " + alvo.getNome() + "!");
-            habilidade.executar(this, alvo);
+        if (!alvo.estaVivo()) {
+            System.out.println(alvo.getNome() + " já está derrotado!");
+            return;
+        }
+
+        if (habilidade == null) {
+            atacar(alvo); // fallback para ataque básico
+            return;
+        }
+
+        TipoCriatura tipoAlvo = null;
+        if (alvo.getCategoria() instanceof CategoriaInimigo) {
+            tipoAlvo = ((CategoriaInimigo) alvo.getCategoria()).getTipoCriatura();
+        }
+
+        // Checa esquiva
+        if (alvo.tentarEsquiva()) {
+            System.out.println(alvo.getNome() + " esquivou da habilidade!");
+            return;
+        }
+
+        double mult = 1.0;
+
+        if (this.getCategoria() instanceof CategoriaPlayer) {
+            CategoriaPlayer catPlayer = (CategoriaPlayer) this.getCategoria();
+
+            // Vantagens
+            for (Vantagem v : catPlayer.getVantagensEnum()) {
+                if (v.getTipo() == tipoAlvo) {
+                    mult *= 1.5;
+                    System.out.println("Vantagem aplicada! Dano aumentado.");
+                }
+            }
+
+            // Fraquezas
+            for (Fraqueza f : catPlayer.getFraquezasEnum()) {
+                if (f.getTipo() == tipoAlvo) {
+                    mult *= 0.5;
+                    System.out.println("Fraqueza aplicada! Dano reduzido.");
+                }
+            }
+        }
+
+        // Calcula efeito base da habilidade
+        double efeitoBase = habilidade.calcularEfeitoBase(this); // base da habilidade
+        int efeitoFinal = (int) (efeitoBase * mult);
+
+        // Se for dano, aplica defesa; se for cura, não aplica
+        if (habilidade.getTipo() == TipoHabilidade.PRIMARIA || habilidade.getTipo() == TipoHabilidade.SECUNDARIA) {
+            efeitoFinal -= alvo.getDefesa();
+            if (efeitoFinal < 0) efeitoFinal = 0;
+        }
+
+        // Crítico
+        if (this.atacarCritico()) {
+            efeitoFinal *= 2;
+            System.out.println("ACERTO CRÍTICO!");
+        }
+
+        // Aplica o efeito
+        if (habilidade.getTipo() == TipoHabilidade.CURA) {
+            alvo.receberCura(efeitoFinal);
+            System.out.println(nome + " usou " + habilidade.getNome() + " e curou " + efeitoFinal + " HP de " + alvo.getNome() + "!");
         } else {
-            atacar(alvo); // ataque básico se não tem habilidade
+            alvo.receberDano(efeitoFinal);
+            System.out.println(nome + " usou " + habilidade.getNome() + " em " + alvo.getNome() + " causando " + efeitoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
         }
     }
+
+
 
     // =======================
     // Distribuição de pontos
@@ -113,11 +258,6 @@ public class Player extends Personagem {
                 pontosStatus -= quantidade;
                 System.out.println(nome + " aumentou MAG! MAG atual: " + magia);
             }
-            case "velocidade" -> {
-                velocidade += quantidade * 1;
-                pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou VEL! VEL atual: " + velocidade);
-            }
             case "energia" -> {
                 energia += quantidade * 5;
                 pontosStatus -= quantidade;
@@ -135,16 +275,15 @@ public class Player extends Personagem {
                 System.out.println("(2) Ataque (+2 ATQ)");
                 System.out.println("(3) Defesa (+1 DEF)");
                 System.out.println("(4) Magia (+1 MAG)");
-                System.out.println("(5) Velocidade (+1 VEL)");
-                System.out.println("(6) Energia (+5 ENE)");
-                System.out.println("(7) Sair");
+                System.out.println("(5) Energia (+5 ENE)");
+                System.out.println("(6) Sair");
 
 
                 Scanner scanner = new Scanner(System.in);
                 int escolha = scanner.nextInt();
 
 
-                if (escolha == 7) break;
+                if (escolha == 6) break;
                 switch (escolha) {
                     case 1:
                         distribuirPonto("vida", 1);
@@ -159,9 +298,6 @@ public class Player extends Personagem {
                         distribuirPonto("magia", 1);
                         break;
                     case 5:
-                        distribuirPonto("velocidade", 1);
-                        break;
-                    case 6:
                         distribuirPonto("energia", 1);
                         break;
                     default:
@@ -186,7 +322,6 @@ public class Player extends Personagem {
                 " | ATQ: " + ataque +
                 " | DEF: " + defesa +
                 " | MAG: " + magia +
-                " | VEL: " + velocidade +
                 " | ENE: " + energia +
                 " | LVL: " + level +
                 " | Categoria: " + categoria.getNome() +

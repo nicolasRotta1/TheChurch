@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class CaçadorSagrado extends CategoriaPlayer {
@@ -14,8 +14,8 @@ public class CaçadorSagrado extends CategoriaPlayer {
             "Especialista final em caçar criaturas sagradas.",
             Arrays.asList(Vantagem.CONTRA_DEMONIOS, Vantagem.CONTRA_VAMPIROS),
             Arrays.asList(Fraqueza.VULNERAVEL_A_ESPIRITOS),
-            Arrays.asList(HabilidadesFactory.TIRO_SAGRADO, HabilidadesFactory.FURIA_CACADORA, HabilidadesFactory.MEDO_DEMONIACO, HabilidadesFactory.VIGOR_SAGRADO),
-            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ, EfeitoPlayer.AUMENTO_VEL, EfeitoPlayer.AUMENTO_ENERGIA)
+            Arrays.asList(HabilidadesFactoryPlayer.TIRO_SAGRADO, HabilidadesFactoryPlayer.FURIA_CACADORA, HabilidadesFactoryPlayer.MEDO_DEMONIACO, HabilidadesFactoryPlayer.VIGOR_SAGRADO),
+            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ, EfeitoPlayer.AUMENTO_ENERGIA)
         );
     }
 

@@ -2,7 +2,7 @@ package Habilidades;
 
 import java.util.List;
 
-public class HabilidadesFactory {
+public class HabilidadesFactoryPlayer {
 
     // =======================
     // Habilidades de dano físico

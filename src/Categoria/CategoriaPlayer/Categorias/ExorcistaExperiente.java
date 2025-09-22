@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class ExorcistaExperiente extends CategoriaPlayer {
@@ -14,7 +14,7 @@ public class ExorcistaExperiente extends CategoriaPlayer {
             "Exorcista com mais prática.",
             Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
             Arrays.asList(Fraqueza.VULNERAVEL_A_VAMPIROS, Fraqueza.VULNERAVEL_A_BRUXOS),
-            Arrays.asList(HabilidadesFactory.EXORCISMO_LEVE, HabilidadesFactory.AURA_PROTETORA, HabilidadesFactory.MEDO_FANTASMAL),
+            Arrays.asList(HabilidadesFactoryPlayer.EXORCISMO_LEVE, HabilidadesFactoryPlayer.AURA_PROTETORA, HabilidadesFactoryPlayer.MEDO_FANTASMAL),
             Arrays.asList(EfeitoPlayer.AUMENTO_DEF, EfeitoPlayer.REDUCAO_ATQ)
         );
     }

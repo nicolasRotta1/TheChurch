@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class CacadorDeDemônios extends CategoriaPlayer {
@@ -14,8 +14,8 @@ public class CacadorDeDemônios extends CategoriaPlayer {
             "Especialista em caçar demônios.",
             Arrays.asList(Vantagem.CONTRA_DEMONIOS, Vantagem.CONTRA_VAMPIROS),
             Arrays.asList(Fraqueza.VULNERAVEL_A_FANTASMAS, Fraqueza.VULNERAVEL_A_ESPIRITOS),
-            Arrays.asList(HabilidadesFactory.BALA_SAGRADA, HabilidadesFactory.VIGOR_CACADOR, HabilidadesFactory.INTIMIDACAO_DEMONIACA),
-            Arrays.asList(EfeitoPlayer.AUMENTO_VEL)
+            Arrays.asList(HabilidadesFactoryPlayer.BALA_SAGRADA, HabilidadesFactoryPlayer.VIGOR_CACADOR, HabilidadesFactoryPlayer.INTIMIDACAO_DEMONIACA),
+            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ)
         );
     }
 

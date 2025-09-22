@@ -1,22 +1,26 @@
-package Personagens.Inimigos;
+package Personagens;
 
 import Categoria.CategoriaInimigo.CategoriaInimigo;
 import Habilidades.Habilidade;
-import Personagens.Personagem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Inimigo extends Personagem {
 
     protected int xp;
-    protected String tipo;
+    protected List<Habilidade> habilidades;
+
 
     public Inimigo(String nome, CategoriaInimigo categoria, int hp, int ataque, int defesa, int magia,
-                   int velocidade, double esquiva, double critico, int resistenciaMagica, int energia,
+                   double esquiva, double critico, int energia,
                    int level, int xp) {
 
-        super(nome, categoria, hp, ataque, defesa, magia, velocidade, esquiva, critico, resistenciaMagica, energia);
+        super(nome, categoria, hp, ataque, defesa, magia, esquiva, critico,  energia);
+
         this.level = level;
         this.xp = xp;
-        this.tipo = categoria.getTipoCriatura();
+        this.habilidades = new ArrayList<>();
     }
 
     // =======================
@@ -64,7 +68,6 @@ public abstract class Inimigo extends Personagem {
         hp += 30;
         defesa += 2;
         magia += 1;
-        velocidade += 1;
         energia += 5;
         System.out.println(nome + " se fortalece!");
     }
@@ -79,11 +82,9 @@ public abstract class Inimigo extends Personagem {
                 " | ATQ: " + ataque +
                 " | DEF: " + defesa +
                 " | MAG: " + magia +
-                " | VEL: " + velocidade +
                 " | ENE: " + energia +
                 " | LVL: " + level +
                 " | Categoria: " + categoria.getNome() +
-                " | Tipo: " + tipo +
                 " | XP: " + xp);
     }
 
@@ -91,6 +92,13 @@ public abstract class Inimigo extends Personagem {
     // Getters
     // =======================
     public int getXp() { return xp; }
-    public String getTipo() { return tipo; }
     public int getAtaque() { return ataque; }
+
+    public List<Habilidade> getHabilidades() {
+        return habilidades;
+    }
+
+    public void setHabilidades(List<Habilidade> habilidades) {
+        this.habilidades = habilidades;
+    }
 }

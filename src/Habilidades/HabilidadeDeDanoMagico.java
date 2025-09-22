@@ -11,7 +11,7 @@ public class HabilidadeDeDanoMagico extends Habilidade {
     @Override
     public void executar(Personagem atacante, Personagem alvo) {
         double base = calcularEfeitoBase(atacante);
-        int danoFinal = (int) Math.round(base - alvo.getResistenciaMagica());
+        int danoFinal = (int) base;
         if (danoFinal < 0) danoFinal = 0;
         alvo.receberDano(danoFinal);
 

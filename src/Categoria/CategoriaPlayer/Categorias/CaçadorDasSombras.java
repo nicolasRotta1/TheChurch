@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class CaçadorDasSombras extends CategoriaPlayer {
@@ -14,8 +14,8 @@ public class CaçadorDasSombras extends CategoriaPlayer {
             "Combina furtividade e ataque.",
             Arrays.asList(Vantagem.CONTRA_ESPIRITOS),
             Arrays.asList(Fraqueza.VULNERAVEL_A_VAMPIROS, Fraqueza.VULNERAVEL_A_DEMONIOS),
-            Arrays.asList(HabilidadesFactory.TIRO_SOMBRA, HabilidadesFactory.AGILIDADE_SOMBRAS, HabilidadesFactory.MEDO_SOMBRIO),
-            Arrays.asList(EfeitoPlayer.AUMENTO_VEL)
+            Arrays.asList(HabilidadesFactoryPlayer.TIRO_SOMBRA, HabilidadesFactoryPlayer.AGILIDADE_SOMBRAS, HabilidadesFactoryPlayer.MEDO_SOMBRIO),
+            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ)
         );
     }
 

@@ -3,10 +3,8 @@ package Categoria.CategoriaPlayer.Categorias;
 import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
-import Categoria.Efeito;
 import Categoria.EfeitoPlayer;
-import Habilidades.Habilidade;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class GuardiaoOculto extends CategoriaPlayer {
@@ -16,8 +14,8 @@ public class GuardiaoOculto extends CategoriaPlayer {
             "Protetor discreto.",
             Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
             Arrays.asList(Fraqueza.VULNERAVEL_A_DEMONIOS, Fraqueza.VULNERAVEL_A_VAMPIROS),
-            Arrays.asList(HabilidadesFactory.GOLPE_ESTRATEGICO, HabilidadesFactory.TATICA_PERFEITA, HabilidadesFactory.RESILIENCIA_OCULTA),
-            Arrays.asList(EfeitoPlayer.AUMENTO_DEF, EfeitoPlayer.AUMENTO_VEL)
+            Arrays.asList(HabilidadesFactoryPlayer.GOLPE_ESTRATEGICO, HabilidadesFactoryPlayer.TATICA_PERFEITA, HabilidadesFactoryPlayer.RESILIENCIA_OCULTA),
+            Arrays.asList(EfeitoPlayer.AUMENTO_DEF)
         );
     }
 

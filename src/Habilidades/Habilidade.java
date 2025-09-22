@@ -22,5 +22,19 @@ public abstract class Habilidade implements IHabilidade {
     @Override
     public abstract double calcularEfeitoBase(Personagem personagem);
 
-    public String getNome() { return nome; }
+    public String getNome() {
+        return nome;
+    }
+
+    public TipoHabilidade getTipo() {
+        return tipo;
+    }
+
+    public double getMultiplicador() {
+        return multiplicador;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }

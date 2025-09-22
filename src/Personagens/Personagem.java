@@ -11,18 +11,16 @@ public abstract class Personagem implements IPersonagem {
     // Atributos de combate
     protected int hp;
     protected int ataque;
-    protected int defesa;           // Reduz dano recebido
+    protected int defesa;            // Reduz dano recebido
     protected int magia;            // Para habilidades especiais
-    protected int velocidade;       // Para determinar ordem de turno
     protected double esquiva;       // 0.0 a 1.0, chance de evitar ataques
     protected double critico;       // 0.0 a 1.0, chance de dano crítico
-    protected int resistenciaMagica; // Reduz dano mágico
     protected int energia;          // Para usar habilidades
 
     protected int level;
     protected boolean vivo = true;
 
-    public Personagem(String nome, CategoriaGeral categoria, int hp, int ataque, int defesa, int magia, int velocidade, double esquiva, double critico, int resistenciaMagica, int energia) {
+    public Personagem(String nome, CategoriaGeral categoria, int hp, int ataque, int defesa, int magia, double esquiva, double critico, int energia) {
         this.id = ++contador;
         this.nome = nome;
         this.categoria = categoria;
@@ -30,10 +28,8 @@ public abstract class Personagem implements IPersonagem {
         this.ataque = ataque;
         this.defesa = defesa;
         this.magia = magia;
-        this.velocidade = velocidade;
         this.esquiva = esquiva;
         this.critico = critico;
-        this.resistenciaMagica = resistenciaMagica;
         this.energia = energia;
     }
 
@@ -98,17 +94,11 @@ public abstract class Personagem implements IPersonagem {
     public int getMagia() { return magia; }
     public void setMagia(int magia) { this.magia = magia; }
 
-    public int getVelocidade() { return velocidade; }
-    public void setVelocidade(int velocidade) { this.velocidade = velocidade; }
-
     public double getEsquiva() { return esquiva; }
     public void setEsquiva(double esquiva) { this.esquiva = esquiva; }
 
     public double getCritico() { return critico; }
     public void setCritico(double critico) { this.critico = critico; }
-
-    public int getResistenciaMagica() { return resistenciaMagica; }
-    public void setResistenciaMagica(int resistenciaMagica) { this.resistenciaMagica = resistenciaMagica; }
 
     public int getEnergia() { return energia; }
     public void setEnergia(int energia) { this.energia = energia; }

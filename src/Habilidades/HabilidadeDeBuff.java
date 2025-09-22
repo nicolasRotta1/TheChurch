@@ -22,7 +22,6 @@ public class HabilidadeDeBuff extends Habilidade {
                 case "ataque" -> alvo.setAtaque(alvo.getAtaque() + quantidade);
                 case "defesa" -> alvo.setDefesa(alvo.getDefesa() + quantidade);
                 case "magia" -> alvo.setMagia(alvo.getMagia() + quantidade);
-                case "velocidade" -> alvo.setVelocidade(alvo.getVelocidade() + quantidade);
                 case "energia" -> alvo.setEnergia(alvo.getEnergia() + quantidade);
                 default -> System.out.println("Atributo inválido para buff: " + atributo);
             }

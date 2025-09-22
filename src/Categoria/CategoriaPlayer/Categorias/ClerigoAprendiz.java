@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class ClerigoAprendiz extends CategoriaPlayer {
@@ -14,7 +14,7 @@ public class ClerigoAprendiz extends CategoriaPlayer {
             "Inicia no caminho da cura.",
             Arrays.asList(Vantagem.CONTRA_ESPIRITOS),
             Arrays.asList(Fraqueza.VULNERAVEL_A_DEMONIOS),
-            Arrays.asList(HabilidadesFactory.PEQUENA_BENCAO, HabilidadesFactory.PROTECAO_INICIAL),
+            Arrays.asList(HabilidadesFactoryPlayer.PEQUENA_BENCAO, HabilidadesFactoryPlayer.PROTECAO_INICIAL),
             Arrays.asList(EfeitoPlayer.AUMENTO_DEF)
         );
     }

@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class DetetiveParanormal extends CategoriaPlayer {
@@ -13,9 +13,9 @@ public class DetetiveParanormal extends CategoriaPlayer {
             "Detetive Paranormal",
             "Inicia investigando fenômenos.",
             Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
-            Arrays.asList(Fraqueza.VULNERAVEL_A_ESPIRITOS,
-            Arrays.asList(HabilidadesFactory.INVESTIGAR_VULNERABILIDADE, HabilidadesFactory.MARCA_INVESTIGADOR),
-            Arrays.asList(EfeitoPlayer.AUMENTO_VEL)
+            Arrays.asList(Fraqueza.VULNERAVEL_A_ESPIRITOS),
+            Arrays.asList(HabilidadesFactoryPlayer.INVESTIGAR_VULNERABILIDADE, HabilidadesFactoryPlayer.MARCA_INVESTIGADOR),
+            Arrays.asList(EfeitoPlayer.AUMENTO_DEF)
             );
     }
 

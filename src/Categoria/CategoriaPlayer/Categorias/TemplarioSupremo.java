@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class TemplarioSupremo extends CategoriaPlayer {
@@ -14,7 +14,7 @@ public class TemplarioSupremo extends CategoriaPlayer {
             "Guerreiro templário avançado.",
             Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_POLTERGEIST),
             Arrays.asList(Fraqueza.VULNERAVEL_A_DEMONIOS),
-            Arrays.asList(HabilidadesFactory.MARTEL_JUSTICA, HabilidadesFactory.ESCUDO_SUPREMO, HabilidadesFactory.INSPIRACAO_TEMPLARIA),
+            Arrays.asList(HabilidadesFactoryPlayer.MARTEL_JUSTICA, HabilidadesFactoryPlayer.ESCUDO_SUPREMO, HabilidadesFactoryPlayer.INSPIRACAO_TEMPLARIA),
             Arrays.asList(EfeitoPlayer.AUMENTO_DEF, EfeitoPlayer.AUMENTO_ATQ)
         );
     }

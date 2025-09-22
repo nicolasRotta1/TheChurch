@@ -4,7 +4,7 @@ import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Categoria.CategoriaPlayer.Fraqueza;
 import Categoria.CategoriaPlayer.Vantagem;
 import Categoria.EfeitoPlayer;
-import Habilidades.HabilidadesFactory;
+import Habilidades.HabilidadesFactoryPlayer;
 import java.util.Arrays;
 
 public class Exterminador extends CategoriaPlayer {
@@ -14,8 +14,8 @@ public class Exterminador extends CategoriaPlayer {
             "Uso de tecnologia e armas.",
             Arrays.asList(Vantagem.CONTRA_FANTASMAS, Vantagem.CONTRA_VAMPIROS),
             Arrays.asList(Fraqueza.VULNERAVEL_A_BRUXOS, Fraqueza.VULNERAVEL_A_DEMONIOS),
-            Arrays.asList(HabilidadesFactory.RAIOS_TECNOLOGICOS, HabilidadesFactory.SISTEMA_DESATIVACAO, HabilidadesFactory.PRECISAO_TECNICA),
-            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ, EfeitoPlayer.AUMENTO_VEL)
+            Arrays.asList(HabilidadesFactoryPlayer.RAIOS_TECNOLOGICOS, HabilidadesFactoryPlayer.SISTEMA_DESATIVACAO, HabilidadesFactoryPlayer.PRECISAO_TECNICA),
+            Arrays.asList(EfeitoPlayer.AUMENTO_ATQ)
         );
     }
 

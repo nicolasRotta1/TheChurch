@@ -1,7 +1,11 @@
 package Habilidades;
 
+import Categoria.CategoriaInimigo.CategoriaInimigo;
+import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Personagens.Personagem;
-import Categoria.Utils;
+import Categoria.CategoriaPlayer.Fraqueza;
+import Categoria.CategoriaPlayer.Vantagem;
+import Categoria.TipoCriatura;
 
 public class HabilidadeDeDanoFisico extends Habilidade {
 
@@ -13,14 +17,45 @@ public class HabilidadeDeDanoFisico extends Habilidade {
     public void executar(Personagem atacante, Personagem alvo) {
         double base = calcularEfeitoBase(atacante);
 
-        // Considera vantagem de categoria se houver
-        double multVantagem = 1.0;
-        if (atacante.getCategoria() != null && alvo.getCategoria() != null) {
-            multVantagem = Utils.calcularMultiplicador(atacante.getCategoria(), alvo.getCategoria());
+        // ========================
+        // Multiplicador por vantagem/fraqueza
+        // ========================
+        double multFinal = 1.0;
+        TipoCriatura tipoAlvo = null;
+
+        if (alvo.getCategoria() instanceof CategoriaInimigo) {
+            tipoAlvo = ((CategoriaInimigo) alvo.getCategoria()).getTipoCriatura();
         }
 
-        int danoFinal = (int) Math.round(base * multVantagem - alvo.getDefesa());
+        if (atacante.getCategoria() instanceof CategoriaPlayer) {
+            CategoriaPlayer catPlayer = (CategoriaPlayer) atacante.getCategoria();
+
+            // Vantagens
+            for (Vantagem v : catPlayer.getVantagensEnum()) {
+                if (v.getTipo() == tipoAlvo) {
+                    multFinal *= 1.5;
+                    System.out.println("Vantagem aplicada! Dano aumentado.");
+                }
+            }
+
+            // Fraquezas
+            for (Fraqueza f : catPlayer.getFraquezasEnum()) {
+                if (f.getTipo() == tipoAlvo) {
+                    multFinal *= 0.5;
+                    System.out.println("Fraqueza aplicada! Dano reduzido.");
+                }
+            }
+        }
+
+        // Crítico
+        if (atacante.atacarCritico()) {
+            base *= 2;
+            System.out.println("ACERTO CRÍTICO!");
+        }
+
+        int danoFinal = (int) Math.round(base * multFinal - alvo.getDefesa());
         if (danoFinal < 0) danoFinal = 0;
+
         alvo.receberDano(danoFinal);
 
         System.out.println(atacante.getNome() + " usou " + getNome() + " em " + alvo.getNome() +
