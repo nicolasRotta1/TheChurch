@@ -1,18 +1,22 @@
 package Categoria.CategoriaInimigo;
 
 import Categoria.CategoriaGeral;
+import Categoria.TipoCriatura;
+import Categoria.Efeito;
+
 import java.util.List;
 
 public abstract class CategoriaInimigo extends CategoriaGeral {
 
-    private String tipoCriatura;
+    private TipoCriatura tipoCriatura;
 
-    public CategoriaInimigo(String nome, String descricao, List<String> vantagens, List<String> fraquezas, String tipoCriatura) {
-        super(nome, descricao, vantagens, fraquezas);
+    public CategoriaInimigo(String nome,
+                            String descricao,
+                            List<Efeito> efeitos,
+                            TipoCriatura tipoCriatura) {
+        super(nome, descricao,efeitos); // passa a lista de efeitos para a superclasse
         this.tipoCriatura = tipoCriatura;
     }
 
-    public String getTipoCriatura() {
-        return tipoCriatura;
-    }
+    public TipoCriatura getTipoCriatura() { return tipoCriatura; }
 }

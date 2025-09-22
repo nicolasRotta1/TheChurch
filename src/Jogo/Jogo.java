@@ -2,137 +2,132 @@ package Jogo;
 
 import Batalha.Batalha;
 import Personagens.Player;
-import Personagens.Inimigos.Inimigo;
+import Personagens.PlayerFactory;
+import Personagens.Inimigo;
+import Personagens.InimigoFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Jogo {
+
     private List<Player> jogadores = new ArrayList<>();
     private List<Inimigo> inimigos = new ArrayList<>();
     private Scanner sc = new Scanner(System.in);
 
-    public void carregarJogadores() {
-        System.out.println("*** Criando jogadores...");
-        
-        // Criando jogadores com diferentes categorias
-        jogadores.add(new Player("Joao - O Padre", new Categoria.CategoriaPlayer.Padre()));
-        jogadores.add(new Player("Maria - A Cacadora", new Categoria.CategoriaPlayer.Caçador()));
-        jogadores.add(new Player("Pedro - O Guerreiro", new Categoria.CategoriaPlayer.Guerreiro()));
-        
-        System.out.println(">>> " + jogadores.size() + " jogadores criados:");
-        for (Player jogador : jogadores) {
-            jogador.mostrarStatus();
+    public void iniciar() {
+        // Carregar jogadores iniciais
+        jogadores = PlayerFactory.getPlayersIniciais();
+
+        // Carregar inimigos da campanha
+        inimigos.add(InimigoFactory.criarFantasminha());
+        inimigos.add(InimigoFactory.criarPoltergeistMenor());
+        inimigos.add(InimigoFactory.criarVampiroNefesfato());
+        inimigos.add(InimigoFactory.criarBruxoCorrupto());
+        inimigos.add(InimigoFactory.criarDemonioInfernal());
+        inimigos.add(InimigoFactory.criarAnjoCaidoSupremo());
+        inimigos.add(InimigoFactory.criarAnticristo());
+
+        System.out.println("=== Bem-vindo à Campanha ===");
+
+        boolean prontoParaBatalha = false;
+
+        while (!prontoParaBatalha) {
+            mostrarStatusJogadores();
+            System.out.println("\n=== Menu ===");
+            System.out.println("1) Evoluir jogadores");
+            System.out.println("2) Subir status dos jogadores");
+            System.out.println("3) Iniciar batalhas");
+            System.out.print("Escolha uma opção: ");
+            int escolha = sc.nextInt();
+
+            switch (escolha) {
+                case 1 -> evoluirJogadores();
+                case 2 -> distribuirStatusJogadores();
+                case 3 -> prontoParaBatalha = true;
+                default -> System.out.println("Opção inválida!");
+            }
+        }
+
+        iniciarCampanha();
+    }
+
+    private void mostrarStatusJogadores() {
+        System.out.println("\n--- Status dos Jogadores ---");
+        for (Player p : jogadores) {
+            p.mostrarStatus();
         }
     }
 
-    private void carregarInimigos() {
-        System.out.println("*** Carregando inimigos...");
-        
-        // Adicionando inimigos baseados em lendas urbanas brasileiras
-        inimigos.add(new Personagens.Inimigos.Saci());
-        inimigos.add(new Personagens.Inimigos.Curupira());
-        inimigos.add(new Personagens.Inimigos.MulaSemCabeca());
-        
-        System.out.println(">>> " + inimigos.size() + " inimigos carregados!");
+    private void evoluirJogadores() {
+        System.out.println("\n=== Evoluir Jogadores ===");
+        for (int i = 0; i < jogadores.size(); i++) {
+            Player p = jogadores.get(i);
+            System.out.println((i + 1) + ") " + p.getNome());
+        }
+        System.out.print("Escolha o jogador para evoluir (0 para voltar): ");
+        int escolha = sc.nextInt() - 1;
+        if (escolha >= 0 && escolha < jogadores.size()) {
+            Player p = jogadores.get(escolha);
+            System.out.println("Escolha a evolução (exemplo: 0, 1, 2...)");
+            p.evoluir(0); // Pode colocar lógica para escolher qual evolução
+        }
     }
 
+    private void distribuirStatusJogadores() {
+        System.out.println("\n=== Distribuir Pontos de Status ===");
+        for (Player p : jogadores) {
+            System.out.println("Distribuindo pontos de " + p.getNome());
+            p.subirStatus();
+        }
+    }
 
-    public void iniciarCampanha() {
-        carregarJogadores();
-        carregarInimigos();
+    private void iniciarCampanha() {
+        System.out.println("\n=== Iniciando Campanha ===");
 
-        delay(200);
-        System.out.println("*** Campanha iniciada! Prepare-se para enfrentar lendas urbanas...");
-        delay(500);
-        
         for (Inimigo inimigo : inimigos) {
-            System.out.println("\n>>> Um novo inimigo aparece!");
+            System.out.println("\n>>> Um inimigo aparece!");
             inimigo.mostrarStatus();
-            delay(1000);
 
-            System.out.println("==============================");
-            Batalha batalha = new Batalha();
-            batalha.iniciarBatalha(jogadores, inimigo);
+            Batalha batalha = new Batalha(jogadores.get(0), inimigo); // Exemplo: 1 player x 1 inimigo
+            batalha.iniciar();
 
-            System.out.println("\n*** Recompensas da batalha:");
-
-            if (inimigo.getHp() <= 0 && inimigo.getHabilidade() != null) {
-                for (Player jogador : jogadores) {
-                    if (jogador.getHp() > 0) {
-                        jogador.equiparArma(inimigo.getHabilidade());
-                        break;
-                    }
+            // Recompensa de XP
+            for (Player p : jogadores) {
+                if (p.estaVivo()) {
+                    p.ganharExperiencia(inimigo.getXp());
                 }
             }
 
-            distribuirXp(inimigo.getXp());
-
-            System.out.println("\n+++ Recuperacao dos jogadores:");
-            for (Player jogador : jogadores) {
-                if (jogador.getHp() > 0) {
-                    int hpMax = 100;
-                    jogador.setHp(Math.min(jogador.getHp() + 20, hpMax));
-                    System.out.println("- " + jogador.getNome() + " recuperou 20 HP.");
+            // Recuperação simples entre batalhas
+            for (Player p : jogadores) {
+                if (p.estaVivo()) {
+                    p.setHp(p.getHp() + 20); // Recupera HP
                 }
             }
 
-            boolean todosDerrotados = jogadores.stream().allMatch(j -> j.getHp() <= 0);
+            // Checa se todos os jogadores estão mortos
+            boolean todosDerrotados = jogadores.stream().allMatch(p -> !p.estaVivo());
             if (todosDerrotados) {
-                System.out.println("\n*** Todos os jogadores foram derrotados! Campanha encerrada.");
-                mostrarResumoFinal();
+                System.out.println("\nTodos os jogadores foram derrotados. Fim da campanha!");
                 return;
             }
 
-            System.out.println("\n>>> Pressione ENTER para continuar...");
+            System.out.println("\nPressione ENTER para continuar...");
+            sc.nextLine();
             sc.nextLine();
         }
 
-        System.out.println("\n*** Campanha finalizada! Todos os inimigos foram derrotados!");
+        System.out.println("\nCampanha finalizada! Todos os inimigos derrotados!");
         mostrarResumoFinal();
     }
 
-    private void distribuirXp(int xp) {
-        for (Player jogador : jogadores) {
-            if (jogador.getHp() > 0) {
-                jogador.setPontosLevel(jogador.getPontosLevel() + xp);
-                System.out.println(jogador.getNome() + " ganhou " + xp + " XP!");
-            }
-        }
-    }
     private void mostrarResumoFinal() {
-        System.out.println("\n*** Resumo dos jogadores:");
-        for (Player jogador : jogadores) {
-            String nomeArma = (jogador.getArma() != null) ? jogador.getArma().getNome() : "Nenhuma";
-            String status = (jogador.getHp() > 0) ? "[VIVO]" : "[DERROTADO]";
-
-            System.out.println("- " + jogador.getNome()
-                    + " | HP: " + jogador.getHp()
-                    + " | XP: " + jogador.getPontosLevel()
-                    + " | Arma: " + nomeArma
-                    + " | Status: " + status);
-        }
-    }
-
-    public void LimparTela(){
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
-
-    }
-
-    public void delay(int tempo){
-        try {
-            Thread.sleep(tempo);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        System.out.println("\n=== Resumo Final dos Jogadores ===");
+        for (Player p : jogadores) {
+            String status = p.estaVivo() ? "VIVO" : "DERROTADO";
+            System.out.println(p.getNome() + " | HP: " + p.getHp() + " | XP: " + p.getExperiencia() + " | Status: " + status);
         }
     }
 }

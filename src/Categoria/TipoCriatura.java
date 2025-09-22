@@ -1,0 +1,17 @@
+package Categoria;
+
+public enum TipoCriatura {
+    FANTASMA,
+    POLTERGEIST,
+    VAMPIRO,
+    BRUXO,
+    DEMONIO,
+    ESPIRITO,
+    LOBISOMEM,
+    ANJO_CAIDO,
+    BONECO_AMALDICOADO,
+    OBJETO_AMALDICOADO,
+    CRIATURA_DA_PESTE,
+    ABERRACAO_DEMONIACA,
+    ANTI_CRISTO
+}
