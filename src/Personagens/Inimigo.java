@@ -5,12 +5,21 @@ import Habilidades.Habilidade;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public abstract class Inimigo extends Personagem {
 
     protected int xp;
     protected List<Habilidade> habilidades;
 
+    // Adicionado: Array de frases de ameaça
+    private String[] frasesDeAmeaca = {
+            "Acha que pode me deter? Sinta o meu poder, reles mortal!",
+            "Vocês vieram atrás de mim... mas agora, vou mostrar o que é o verdadeiro medo!",
+            "Seus golpes são fracos! A escuridão me dá força, e vocês não passarão de cinzas.",
+            "A igreja de vocês vai ruir, e sua fé se apagará... Assim como suas vidas!",
+            "Um a um, vocês cairão. A derrota é o seu destino."
+    };
 
     public Inimigo(String nome, CategoriaInimigo categoria, int hp, int ataque, int defesa, int magia,
                    double esquiva, double critico, int energia,
@@ -48,13 +57,23 @@ public abstract class Inimigo extends Personagem {
         System.out.println(nome + " atacou " + alvo.getNome() + " causando " + dano + " de dano! (HP restante: " + alvo.getHp() + ")");
     }
 
-
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         if (habilidade != null) {
             System.out.println(nome + " usa " + habilidade.getNome() + " contra " + alvo.getNome() + "!");
             habilidade.executar(this, alvo);
         } else {
             atacar(alvo); // ataque básico
+        }
+    }
+
+    // =======================
+    // Ameaça
+    // =======================
+    public void ameacar() {
+        if (frasesDeAmeaca.length > 0) {
+            Random random = new Random();
+            String frase = frasesDeAmeaca[random.nextInt(frasesDeAmeaca.length)];
+            System.out.println(">>> " + this.getNome() + " brada: " + frase);
         }
     }
 
@@ -94,6 +113,7 @@ public abstract class Inimigo extends Personagem {
     public int getXp() { return xp; }
     public int getAtaque() { return ataque; }
 
+    // O seu método getHabilidades() já está correto, não precisa ser alterado
     public List<Habilidade> getHabilidades() {
         return habilidades;
     }

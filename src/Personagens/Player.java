@@ -30,19 +30,32 @@ public class Player extends Personagem {
         this.pontosFe = pontosFe;
     }
 
+    // --- NOVO MÉTODO: Digita uma string caractere por caractere
+    private void escreverDevagar(String mensagem) {
+        for (char caractere : mensagem.toCharArray()) {
+            System.out.print(caractere);
+            try {
+                Thread.sleep(15);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println(); // Pula para a próxima linha
+    }
+
     // =======================
     // Level e XP
     // =======================
     public void subirLevel() {
         level++;
         pontosStatus += 5;
-        System.out.println(nome + " subiu para o nível " + level + "! (+5 pontos de status)");
+        escreverDevagar(nome + " subiu para o nível " + level + "! (+5 pontos de status)");
     }
 
     @Override
     public void atacar(Personagem alvo) {
         if (!alvo.estaVivo()) {
-            System.out.println(alvo.getNome() + " já está derrotado!");
+            escreverDevagar(alvo.getNome() + " já está derrotado!");
             return;
         }
 
@@ -52,7 +65,7 @@ public class Player extends Personagem {
         }
 
         if (alvo.tentarEsquiva()) {
-            System.out.println(alvo.getNome() + " esquivou do ataque!");
+            escreverDevagar(alvo.getNome() + " esquivou do ataque!");
             return;
         }
 
@@ -65,7 +78,7 @@ public class Player extends Personagem {
             for (Vantagem v : catPlayer.getVantagensEnum()) {
                 if (v.getTipo() == tipoAlvo) {
                     mult *= 1.5;
-                    System.out.println("Vantagem aplicada! Dano aumentado.");
+                    escreverDevagar("Vantagem aplicada! Dano aumentado.");
                 }
             }
 
@@ -73,7 +86,7 @@ public class Player extends Personagem {
             for (Fraqueza f : catPlayer.getFraquezasEnum()) {
                 if (f.getTipo() == tipoAlvo) {
                     mult *= 0.5;
-                    System.out.println("Fraqueza aplicada! Dano reduzido.");
+                    escreverDevagar("Fraqueza aplicada! Dano reduzido.");
                 }
             }
         }
@@ -81,7 +94,7 @@ public class Player extends Personagem {
         int danoBase = this.getAtaque();
         if (this.atacarCritico()) {
             danoBase *= 2;
-            System.out.println("ACERTO CRÍTICO!");
+            escreverDevagar("ACERTO CRÍTICO!");
         }
 
         int danoFinal = (int) (danoBase * mult - alvo.getDefesa());
@@ -89,7 +102,7 @@ public class Player extends Personagem {
 
         alvo.receberDano(danoFinal);
 
-        System.out.println(this.getNome() + " atacou " + alvo.getNome() + " causando " + danoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
+        escreverDevagar(this.getNome() + " atacou " + alvo.getNome() + " causando " + danoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
     }
 
     public void evoluir(int opcao) {
@@ -98,7 +111,7 @@ public class Player extends Personagem {
         try {
             catAtual = (CategoriaPlayer) getCategoria();
         } catch (ClassCastException e) {
-            System.out.println("Essa categoria não pode evoluir!");
+            escreverDevagar("Essa categoria não pode evoluir!");
             return;
         }
 
@@ -106,18 +119,18 @@ public class Player extends Personagem {
         List<Class<? extends CategoriaPlayer>> evolucoes = catAtual.getEvolucoes();
 
         if (evolucoes.isEmpty()) {
-            System.out.println(getNome() + " não pode evoluir mais!");
+            escreverDevagar(getNome() + " não pode evoluir mais!");
             return;
         }
 
         if (opcao < 0 || opcao >= evolucoes.size()) {
-            System.out.println("Opção inválida! Escolha entre 0 e " + (evolucoes.size() - 1));
+            escreverDevagar("Opção inválida! Escolha entre 0 e " + (evolucoes.size() - 1));
             return;
         }
 
         int custoFe = catAtual.getCustoEvolucao(); // supondo que cada categoria tenha um custo de evolução
         if (pontosFe < custoFe) {
-            System.out.println("Você não tem fé suficiente para evoluir! Custo: " + custoFe + " | Fé atual: " + pontosFe);
+            escreverDevagar("Você não tem fé suficiente para evoluir! Custo: " + custoFe + " | Fé atual: " + pontosFe);
             return;
         }
 
@@ -125,9 +138,9 @@ public class Player extends Personagem {
             CategoriaPlayer novaCategoria = evolucoes.get(opcao).getDeclaredConstructor().newInstance();
             setCategoria(novaCategoria);
             pontosFe -= custoFe; // desconta a fé usada na evolução
-            System.out.println(getNome() + " evoluiu para " + novaCategoria.getNome() + "! Fé restante: " + pontosFe);
+            escreverDevagar(getNome() + " evoluiu para " + novaCategoria.getNome() + "! Fé restante: " + pontosFe);
         } catch (Exception e) {
-            System.out.println("Erro ao evoluir: " + e.getMessage());
+            escreverDevagar("Erro ao evoluir: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -138,7 +151,7 @@ public class Player extends Personagem {
 
     public void ganharExperiencia(int xp) {
         experiencia += xp;
-        System.out.println(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
+        escreverDevagar(nome + " ganhou " + xp + " de XP! (Total: " + experiencia + ")");
         while (experiencia >= level * 100) {
             experiencia -= level * 100;
             subirLevel();
@@ -154,7 +167,7 @@ public class Player extends Personagem {
 
     public void usarHabilidade(Habilidade habilidade, Personagem alvo) {
         if (!alvo.estaVivo()) {
-            System.out.println(alvo.getNome() + " já está derrotado!");
+            escreverDevagar(alvo.getNome() + " já está derrotado!");
             return;
         }
 
@@ -170,7 +183,7 @@ public class Player extends Personagem {
 
         // Checa esquiva
         if (alvo.tentarEsquiva()) {
-            System.out.println(alvo.getNome() + " esquivou da habilidade!");
+            escreverDevagar(alvo.getNome() + " esquivou da habilidade!");
             return;
         }
 
@@ -183,7 +196,7 @@ public class Player extends Personagem {
             for (Vantagem v : catPlayer.getVantagensEnum()) {
                 if (v.getTipo() == tipoAlvo) {
                     mult *= 1.5;
-                    System.out.println("Vantagem aplicada! Dano aumentado.");
+                    escreverDevagar("Vantagem aplicada! Dano aumentado.");
                 }
             }
 
@@ -191,7 +204,7 @@ public class Player extends Personagem {
             for (Fraqueza f : catPlayer.getFraquezasEnum()) {
                 if (f.getTipo() == tipoAlvo) {
                     mult *= 0.5;
-                    System.out.println("Fraqueza aplicada! Dano reduzido.");
+                    escreverDevagar("Fraqueza aplicada! Dano reduzido.");
                 }
             }
         }
@@ -209,16 +222,16 @@ public class Player extends Personagem {
         // Crítico
         if (this.atacarCritico()) {
             efeitoFinal *= 2;
-            System.out.println("ACERTO CRÍTICO!");
+            escreverDevagar("ACERTO CRÍTICO!");
         }
 
         // Aplica o efeito
         if (habilidade.getTipo() == TipoHabilidade.CURA) {
             alvo.receberCura(efeitoFinal);
-            System.out.println(nome + " usou " + habilidade.getNome() + " e curou " + efeitoFinal + " HP de " + alvo.getNome() + "!");
+            escreverDevagar(nome + " usou " + habilidade.getNome() + " e curou " + efeitoFinal + " HP de " + alvo.getNome() + "!");
         } else {
             alvo.receberDano(efeitoFinal);
-            System.out.println(nome + " usou " + habilidade.getNome() + " em " + alvo.getNome() + " causando " + efeitoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
+            escreverDevagar(nome + " usou " + habilidade.getNome() + " em " + alvo.getNome() + " causando " + efeitoFinal + " de dano! (HP restante: " + alvo.getHp() + ")");
         }
     }
 
@@ -229,11 +242,11 @@ public class Player extends Personagem {
     // =======================
     public void distribuirPonto(String atributo, int quantidade) {
         if (pontosStatus <= 0) {
-            System.out.println("Você não tem pontos para distribuir.");
+            escreverDevagar("Você não tem pontos para distribuir.");
             return;
         }
         if (pontosStatus < quantidade){
-            System.out.println("Você não tem pontos o suficiente para distribuir");
+            escreverDevagar("Você não tem pontos o suficiente para distribuir");
             return;
         }
 
@@ -241,42 +254,42 @@ public class Player extends Personagem {
             case "vida" -> {
                 hp += quantidade * 10;
                 pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou HP! HP atual: " + hp);
+                escreverDevagar(nome + " aumentou HP! HP atual: " + hp);
             }
             case "ataque" -> {
                 ataque += quantidade * 2;
                 pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou ATQ! ATQ atual: " + ataque);
+                escreverDevagar(nome + " aumentou ATQ! ATQ atual: " + ataque);
             }
             case "defesa" -> {
                 defesa += quantidade * 1;
                 pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou DEF! DEF atual: " + defesa);
+                escreverDevagar(nome + " aumentou DEF! DEF atual: " + defesa);
             }
             case "magia" -> {
                 magia += quantidade * 1;
                 pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou MAG! MAG atual: " + magia);
+                escreverDevagar(nome + " aumentou MAG! MAG atual: " + magia);
             }
             case "energia" -> {
                 energia += quantidade * 5;
                 pontosStatus -= quantidade;
-                System.out.println(nome + " aumentou ENE! ENE atual: " + energia);
+                escreverDevagar(nome + " aumentou ENE! ENE atual: " + energia);
             }
-            default -> System.out.println("Atributo inválido.");
+            default -> escreverDevagar("Atributo inválido.");
         }
     }
 
     public void subirStatus() {
         if (pontosStatus > 0) {
             while (true) {
-                System.out.println("Você tem " + pontosStatus + " pontos para distribuir:");
-                System.out.println("(1) Vida (+10 HP)");
-                System.out.println("(2) Ataque (+2 ATQ)");
-                System.out.println("(3) Defesa (+1 DEF)");
-                System.out.println("(4) Magia (+1 MAG)");
-                System.out.println("(5) Energia (+5 ENE)");
-                System.out.println("(6) Sair");
+                escreverDevagar("Você tem " + pontosStatus + " pontos para distribuir:");
+                escreverDevagar("(1) Vida (+10 HP)");
+                escreverDevagar("(2) Ataque (+2 ATQ)");
+                escreverDevagar("(3) Defesa (+1 DEF)");
+                escreverDevagar("(4) Magia (+1 MAG)");
+                escreverDevagar("(5) Energia (+5 ENE)");
+                escreverDevagar("(6) Sair");
 
 
                 Scanner scanner = new Scanner(System.in);
@@ -301,13 +314,13 @@ public class Player extends Personagem {
                         distribuirPonto("energia", 1);
                         break;
                     default:
-                        System.out.println("Escolha inválida! Tente novamente.");
+                        escreverDevagar("Escolha inválida! Tente novamente.");
                         break;
                 }
             }
 
         } else {
-            System.out.println(nome + " não tem pontos para distribuir!");
+            escreverDevagar(nome + " não tem pontos para distribuir!");
         }
     }
 
@@ -317,7 +330,7 @@ public class Player extends Personagem {
     // =======================
     @Override
     public void mostrarStatus() {
-        System.out.println("[" + getClass().getSimpleName() + "] " + nome +
+        escreverDevagar("[" + getClass().getSimpleName() + "] " + nome +
                 " | HP: " + hp +
                 " | ATQ: " + ataque +
                 " | DEF: " + defesa +

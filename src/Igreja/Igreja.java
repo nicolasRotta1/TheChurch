@@ -12,10 +12,18 @@ public class Igreja {
         this.hp = 500;
     }
 
+    // Adicione o método para a igreja receber dano
+    public void receberDano(int dano) {
+        this.hp -= dano;
+        if (this.hp < 0) {
+            this.hp = 0;
+        }
+    }
+
     public boolean estaDestruida() {
         return this.hp <= 0;
     }
-    
+
     public int getId() {
         return id;
     }

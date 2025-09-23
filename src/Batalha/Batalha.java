@@ -3,109 +3,151 @@ package Batalha;
 import Categoria.CategoriaPlayer.CategoriaPlayer;
 import Personagens.Player;
 import Personagens.Inimigo;
-import Personagens.Personagem;
 import Habilidades.Habilidade;
+import Igreja.Igreja; // Importe a classe Igreja
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+import java.util.Random; // Importe a classe Random
 
 public class Batalha {
 
     private List<Player> jogadores;
     private Inimigo inimigo;
+    private Igreja igreja; // Adicione o atributo da Igreja
     private Scanner scanner = new Scanner(System.in);
+    private Random random = new Random(); // Adicione o objeto Random
 
-    public Batalha(List<Player> jogadores, Inimigo inimigo) {
+    // Atualize o construtor para receber a Igreja
+    public Batalha(List<Player> jogadores, Inimigo inimigo, Igreja igreja) {
         this.jogadores = jogadores;
         this.inimigo = inimigo;
+        this.igreja = igreja;
     }
 
     public void iniciar() {
-        System.out.println("=== Batalha Iniciada ===");
+        escreverDevagar("=== Batalha Iniciada ===");
 
-        // Enquanto inimigo e pelo menos um jogador estiverem vivos
-        while (inimigo.estaVivo() && jogadores.stream().anyMatch(Player::estaVivo)) {
-            mostrarStatus();
+        // Adicione a condição da igreja no loop principal
+        while (inimigo.estaVivo() && jogadores.stream().anyMatch(Player::estaVivo) && !igreja.estaDestruida()) {
+//            mostrarStatus();
 
             // ---- Turno dos jogadores ----
-            for (Player player : jogadores) {
-                if (!player.estaVivo()) continue; // ignora jogadores mortos
+            List<Player> jogadoresVivos = jogadores.stream().filter(Player::estaVivo).collect(Collectors.toList());
+            for (Player player : jogadoresVivos) {
+                if (!inimigo.estaVivo()) { // Checa a vitória após o turno de cada jogador
+                    escreverDevagar("\n" + inimigo.getNome() + " foi derrotado!");
+                    player.ganharExperiencia(inimigo.getXp());
+                    encerrar(true); // Fim de jogo por vitória
+                    return;
+                }
 
-                System.out.println("\n--- Turno de " + player.getNome() + " ---");
+                escreverDevagar("\n--- Turno de " + player.getNome() + " ---");
                 turnoPlayer(player);
 
-                // Limpar buffs/debuffs do jogador ao final do turno
                 player.limparEfeitosTemporarios();
 
-                if (!inimigo.estaVivo()) {
-                    System.out.println(inimigo.getNome() + " foi derrotado!");
-                    player.ganharExperiencia(inimigo.getXp());
-                    encerrar();
+
+                if (inimigo.estaVivo() && player.estaVivo()) {
+                    turnoInimigo(player);
+                    inimigo.limparEfeitosTemporarios();
+                }
+
+                if (!player.estaVivo()) {
+                    escreverDevagar(player.getNome() + " foi derrotado!");
+                    // Aplica dano à igreja
+                    int danoIgreja = random.nextInt(71) + 50; // Dano entre 50 e 120
+                    igreja.receberDano(danoIgreja);
+                    escreverDevagar("A Igreja sofreu " + danoIgreja + " de dano! HP restante: " + igreja.getHp());
+                }
+
+                // Checa se a igreja foi destruída
+                if(igreja.estaDestruida()){
+                    escreverDevagar("A Igreja foi destruída! O jogo termina aqui.");
+                    encerrar(false); // Fim de jogo por derrota
                     return;
                 }
             }
-
-            // ---- Turno do inimigo atacando todos os jogadores vivos ----
-            System.out.println("\n--- Turno do inimigo: " + inimigo.getNome() + " ---");
-            for (Player player : jogadores) {
-                if (!player.estaVivo()) continue;
-                turnoInimigo(player);
-            }
-
-            // Limpar buffs/debuffs do inimigo ao final do turno
-            inimigo.limparEfeitosTemporarios();
-
-            // Checar jogadores derrotados
-            for (Player player : jogadores) {
-                if (!player.estaVivo()) {
-                    System.out.println(player.getNome() + " foi derrotado!");
-                }
-            }
         }
 
-        encerrar();
+        encerrar(inimigo.estaVivo() && !igreja.estaDestruida()); // Encerrar ao final do loop
     }
 
-    private void mostrarStatus() {
-        System.out.println("\n--- Status ---");
-        for (Player player : jogadores) {
-            player.mostrarStatus();
-        }
-        inimigo.mostrarStatus();
-        System.out.println("---------------\n");
-    }
+//    private void mostrarStatus() {
+//        System.out.println("\n--- Status ---");
+//        for (Player player : jogadores) {
+//            player.mostrarStatus();
+//        }
+//        inimigo.mostrarStatus();
+//        System.out.println("HP da Igreja: " + igreja.getHp()); // Exibe o HP da igreja
+//        System.out.println("---------------\n");
+//    }
 
     private void turnoPlayer(Player player) {
-        System.out.println("Escolha uma ação:");
-        System.out.println("1) Ataque");
-        System.out.println("2) Usar habilidade");
+        escreverDevagar("Escolha uma ação:");
+        escreverDevagar("1) Ataque");
+        escreverDevagar("2) Usar habilidade");
 
-        int escolha = scanner.nextInt();
+        int escolha = -1;
+        try {
+            escolha = scanner.nextInt();
+            scanner.nextLine();
+        } catch (java.util.InputMismatchException e) {
+            escreverDevagar("Entrada inválida. Usando ataque básico.");
+            scanner.nextLine();
+            escolha = 1;
+        }
 
         switch (escolha) {
-            case 1 -> player.atacar(inimigo);
-            case 2 -> {
-                // Faz cast do categoria para CategoriaPlayer
+            case 1:
+                player.atacar(inimigo);
+                break;
+
+            case 2:
                 Habilidade hab = null;
+
                 if (player.getCategoria() instanceof CategoriaPlayer catPlayer) {
-                    // Aqui você pega a primeira habilidade como exemplo
                     List<Habilidade> habilidades = catPlayer.getHabilidades();
+
                     if (habilidades != null && !habilidades.isEmpty()) {
-                        hab = habilidades.get(0); // ou qualquer lógica de seleção
+                        escreverDevagar("\n=== Escolha uma Habilidade ===");
+                        for (int i = 0; i < habilidades.size(); i++) {
+                            escreverDevagar((i + 1) + ") " + habilidades.get(i).getNome() + " - " + habilidades.get(i).getDescricao());
+                        }
+                        escreverDevagar("0) Voltar para ataque padrão");
+
+                        int escolhaHab = -1;
+                        try {
+                            escolhaHab = scanner.nextInt();
+                            scanner.nextLine();
+                        } catch (java.util.InputMismatchException e) {
+                            escreverDevagar("Entrada inválida.");
+                            scanner.nextLine();
+                            escolhaHab = -1;
+                        }
+
+                        if (escolhaHab > 0 && escolhaHab <= habilidades.size()) {
+                            hab = habilidades.get(escolhaHab - 1);
+                        } else {
+                            escreverDevagar("Opção inválida ou escolhida para voltar. Usando ataque básico.");
+                        }
+                    } else {
+                        escreverDevagar("Nenhuma habilidade disponível para " + player.getNome() + ".");
                     }
                 }
 
                 if (hab != null) {
                     player.usarHabilidade(hab, inimigo);
                 } else {
-                    System.out.println("Nenhuma habilidade disponível! Usando ataque básico.");
                     player.atacar(inimigo);
                 }
-            }
-            default -> {
-                System.out.println("Ação inválida! Usando ataque padrão.");
+                break;
+
+            default:
+                escreverDevagar("Opção inválida! Usando ataque básico.");
                 player.atacar(inimigo);
-            }
+                break;
         }
     }
 
@@ -113,15 +155,42 @@ public class Batalha {
         if (!inimigo.estaVivo()) return;
 
         List<Habilidade> habs = inimigo.getHabilidades();
-        if (habs != null && !habs.isEmpty()) {
+        if (habs != null && !habs.isEmpty() && Math.random() > 0.5) {
             Habilidade hab = habs.get((int) (Math.random() * habs.size()));
             inimigo.usarHabilidade(hab, alvo);
         } else {
             inimigo.atacar(alvo);
         }
+
+        if (alvo.estaVivo()) {
+            inimigo.ameacar();
+        }
+    }
+
+    // Adapte o método encerrar para exibir a mensagem de vitória ou derrota
+    private void encerrar(boolean vitoria) {
+        escreverDevagar("=== Batalha Encerrada ===");
+        if (vitoria) {
+            escreverDevagar("VITÓRIA! Todos os inimigos foram derrotados.");
+        } else {
+            escreverDevagar("DERROTA! A Igreja foi destruída ou todos os jogadores foram derrotados.");
+        }
     }
 
     private void encerrar() {
-        System.out.println("=== Batalha Encerrada ===");
+        encerrar(false);
+    }
+
+    // --- NOVO MÉTODO: Digita uma string caractere por caractere
+    private void escreverDevagar(String mensagem) {
+        for (char caractere : mensagem.toCharArray()) {
+            System.out.print(caractere);
+            try {
+                Thread.sleep(15);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        System.out.println(); // Pula para a próxima linha
     }
 }

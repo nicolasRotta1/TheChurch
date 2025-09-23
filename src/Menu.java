@@ -5,9 +5,9 @@ public class Menu {
 
     public int exibirMenu() {
         System.out.println("=================================");
-        System.out.println("     ASCENSAO DAS LENDAS");
+        System.out.println(" THE CHURCH: The last battle ");
         System.out.println("=================================");
-        System.out.println("Pressione ENTER para Start...");
+        System.out.println("Pressione ENTER para começar...");
         sc.nextLine(); // espera ENTER
 
         return exibirSubmenu();
@@ -24,6 +24,7 @@ public class Menu {
             System.out.println("\n===== MENU INICIAL =====");
             System.out.println("1 - Nova Campanha");
             System.out.println("2 - Carregar Campanha");
+            System.out.println("3 - Mostrar Status");
             System.out.print("Escolha: ");
 
             try {
