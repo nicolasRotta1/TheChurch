@@ -85,20 +85,17 @@ public class PlayerFactory {
         List<Player> players = new ArrayList<>();
 
         // Exorcistas Aprendiz
-        players.add(criarNovoPlayer("Lucien Armand", new ExorcistaAprendiz()));
         players.add(criarNovoPlayer("Sofia Valente", new ExorcistaAprendiz()));
 
         // Paladinos Iniciante
         players.add(criarNovoPlayer("Gideon Ferraz", new PaladinoIniciante()));
-        players.add(criarNovoPlayer("Isadora Cruz", new PaladinoIniciante()));
+
 
         // Detetives Paranormal
-        players.add(criarNovoPlayer("Victor Sombra", new DetetiveParanormal()));
         players.add(criarNovoPlayer("Helena Noctis", new DetetiveParanormal()));
 
         // Clérigos Aprendiz
         players.add(criarNovoPlayer("Matias Luz", new ClerigoAprendiz()));
-        players.add(criarNovoPlayer("Clarisse Benedita", new ClerigoAprendiz()));
 
         return players;
     }
